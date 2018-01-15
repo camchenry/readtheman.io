@@ -1,9 +1,16 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "~normalize.css/normalize.css";
+
+body {
+    background: #fff;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    width: 720px;
+    margin: 20px auto;
+}
+pre {
+    font-family: "Roboto Mono", monospace;
+    background: #eee;
+    padding: 1em 0;
+}

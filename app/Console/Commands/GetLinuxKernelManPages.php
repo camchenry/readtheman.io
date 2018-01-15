@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Process;
 
 class GetLinuxKernelManPages extends Command
@@ -62,19 +63,51 @@ class GetLinuxKernelManPages extends Command
 
         echo $process->getOutput();
 
-        $process = new Process(array(
-            'mman',
-            '-T', 'html',
-            '-M', $directory . '',
-        ));
-        $process->run();
-
-        if (!$process->isSuccessful())
+        for($section = 1; $section <= 8; $section++)
         {
-            echo $process->getErrorOutput();
-            exit();
+            $section_dir = $directory . "/man$section";
+
+            $files = array_diff(scandir($section_dir), array('..', '.'));
+            foreach($files as $file_name)
+            {
+                preg_match('/(.*)\.(\d)/', $file_name, $matches);
+                $command_name = $matches[1];
+                $section = (int) $matches[2];
+                echo "Section $section: $command_name\n";
+
+                // Generate HTML
+                $process = new Process(array(
+                    'mman',
+                    '-T', 'html',
+                    '-M', $directory,
+                    $command_name
+                ));
+                $process->run();
+
+                if (!$process->isSuccessful())
+                {
+                    echo $process->getErrorOutput();
+                    exit();
+                }
+
+                $html = $process->getOutput();
+
+                unset($doc);
+                $doc = new \DOMDocument;
+                $doc->loadXML($html);
+                $doc_body_only = new \DOMDocument;
+                $body = $doc->getElementsByTagName('body')->item(0);
+                foreach($body->childNodes as $child) {
+                    $doc_body_only->appendChild($doc_body_only->importNode($child, true));
+                }
+                $html = $doc_body_only->saveHTML();
+
+                $page = \App\Page::firstOrCreate(['name' => $command_name]);
+                $page->section = $section;
+                $page->raw_html = $html;
+                $page->save();
+            }
         }
 
-        echo $process->getOutput();
     }
 }
