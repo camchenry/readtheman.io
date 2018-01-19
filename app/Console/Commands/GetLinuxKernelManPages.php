@@ -128,7 +128,26 @@ class GetLinuxKernelManPages extends Command
                     $doc_body_only->appendChild($doc_body_only->importNode($child, true));
                 }
 
-                $body_html = $doc_body_only->saveHTML();
+                $doc = $doc_body_only;
+
+                // Add hyperlinks to other pages
+                $bolded = $doc->getElementsByTagName('b');
+                for($i = 0; $i < $bolded->length; $i++) {
+                    $bold = $bolded->item($i);
+                    $text = trim($bold->textContent);
+
+                    if (!empty($text)) {
+                        if (\App\Page::where('name', '=', $text)->exists()) {
+                            $link = $doc->createElement('a');
+                            $link->textContent = $text;
+                            $link->setAttribute('href', \URL::to('/pages/' . $text));
+                            $bold->textContent = '';
+                            $bold->appendChild($link);
+                        }
+                    }
+                }
+
+                $body_html = $doc->saveHTML();
 
                 // Strip out <table class='head'> tag
                 $html = mb_eregi_replace("<\s*table\s*class=\"head\"\s*[^>]*>(.*?)</\s*table\s*>", '', $body_html);
