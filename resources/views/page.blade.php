@@ -13,4 +13,9 @@
     <article class="man-page">
         {!! $page->raw_html !!}
     </article>
+    <footer>
+        <div>
+            <p>Last updated: <span>{{ $page->page_updated_at->format('F j, Y') }}</span></p>
+        </div>
+    </footer>
 @endsection

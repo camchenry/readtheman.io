@@ -27,7 +27,6 @@ class GetLinuxKernelManPages extends Command
      *
      * @var array[string] = string
      */
-    // s390
     public $category_synonyms = [
         "linux user's manual"        => "Linux User's Manual",
         "linux user manual"          => "Linux User's Manual",
@@ -121,6 +120,8 @@ class GetLinuxKernelManPages extends Command
 
                 $doc = new \DOMDocument;
                 $doc->loadXML($html);
+
+                // Strip out everything but the HTML in the <body> tag
                 $doc_body_only = new \DOMDocument;
                 $body = $doc->getElementsByTagName('body')->item(0);
                 foreach($body->childNodes as $child) {
@@ -130,16 +131,32 @@ class GetLinuxKernelManPages extends Command
                 $body_html = $doc_body_only->saveHTML();
 
                 // Strip out <table class='head'> tag
-                $html = mb_eregi_replace("<\s*table\s*class=\"head\"\s*[^>]*>(.*?)</\s*table\s*>", '', $html);
+                $html = mb_eregi_replace("<\s*table\s*class=\"head\"\s*[^>]*>(.*?)</\s*table\s*>", '', $body_html);
+
+                // Strip out <table class='head'> tag
+                $html = mb_eregi_replace("<\s*table\s*class=\"foot\"\s*[^>]*>(.*?)</\s*table\s*>", '', $html);
 
                 $dom = new \PHPHtmlParser\Dom();
                 $dom->load($body_html);
 
+                // Extract the category name, like "Linux programmer's manual"
                 $category = $dom->find('.head-vol')->text;
                 if (isset($this->category_synonyms[strtolower($category)]))
                 {
                     $category = $this->category_synonyms[strtolower($category)];
                 }
+
+                // Extract the last updated time
+                $updated_at = $dom->find('.foot-date')->text;
+                $time_zone = new \DateTimeZone('UTC');
+                $updated_at_date = \DateTime::createFromFormat('Y-m-d', $updated_at, $time_zone);
+
+                // Prev date format failed, try a different one
+                if (!$updated_at_date) {
+                    $updated_at_date = \DateTime::createFromFormat('F j, Y', $updated_at, $time_zone);
+                }
+
+                // @TODO: Parse the footer OS tag .foot-os
 
                 echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $command_name);
 
@@ -147,6 +164,7 @@ class GetLinuxKernelManPages extends Command
                 $page->section = (int)$section;
                 $page->category = trim($category);
                 $page->raw_html = trim($html);
+                $page->page_updated_at = $updated_at_date->format('Y-m-d H:i:s');
                 $page->save();
             }
         }
