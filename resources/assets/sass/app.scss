@@ -3,14 +3,70 @@
 
 @import "~normalize.css/normalize.css";
 
+*, *:before, *:after {
+    box-sizing: border-box;
+}
 body {
     background: #fff;
     font-family: Roboto, Helvetica, Arial, sans-serif;
     width: 720px;
     margin: 20px auto;
 }
-pre {
-    font-family: "Roboto Mono", monospace;
-    background: #eee;
-    padding: 1em 0;
+
+/*
+ *
+ * Manual styles
+ *
+ */
+
+table.head {
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+
+    .head-vol {
+        text-align: center;
+    }
+    .head-rtitle {
+        text-align: right;
+    }
+}
+
+table.foot {
+    width: 100%;
+    margin-top: 2rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #ccc;
+
+    .foot-date::before {
+        content: 'Last updated: ';
+    }
+}
+
+.manual-text {
+    pre {
+        font-family: "Roboto Mono", monospace;
+        background: #eee;
+        padding: 1em;
+        border: 1px solid #ccc;
+    }
+    b {
+        font-family: "Roboto Mono", monospace;
+    }
+
+    /* Table styles */
+    .tbl {
+        width: 100%;
+        border: 1px solid #ccc;
+    }
+
+    h1.Sh {
+        margin-top: 3rem;
+    }
+    h1 .selflink {
+        text-decoration: none;
+        color: inherit;
+    }
 }

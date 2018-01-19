@@ -449,6 +449,13 @@ template {
 [hidden] {
   display: none;
 }
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 body {
   background: #fff;
   font-family: Roboto, Helvetica, Arial, sans-serif;
@@ -456,9 +463,65 @@ body {
   margin: 20px auto;
 }
 
-pre {
+/*
+ *
+ * Manual styles
+ *
+ */
+
+table.head {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+table.head .head-vol {
+  text-align: center;
+}
+
+table.head .head-rtitle {
+  text-align: right;
+}
+
+table.foot {
+  width: 100%;
+  margin-top: 2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #ccc;
+}
+
+table.foot .foot-date::before {
+  content: 'Last updated: ';
+}
+
+.manual-text {
+  /* Table styles */
+}
+
+.manual-text pre {
   font-family: "Roboto Mono", monospace;
   background: #eee;
-  padding: 1em 0;
+  padding: 1em;
+  border: 1px solid #ccc;
+}
+
+.manual-text b {
+  font-family: "Roboto Mono", monospace;
+}
+
+.manual-text .tbl {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+.manual-text h1.Sh {
+  margin-top: 3rem;
+}
+
+.manual-text h1 .selflink {
+  text-decoration: none;
+  color: inherit;
 }
 

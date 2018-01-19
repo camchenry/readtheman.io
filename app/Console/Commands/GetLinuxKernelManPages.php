@@ -22,6 +22,34 @@ class GetLinuxKernelManPages extends Command
      */
     protected $description = 'Get linux kernel man pages';
 
+    /*
+     * Map lowercased category names to the real category name
+     *
+     * @var array[string] = string
+     */
+    // s390
+    public $category_synonyms = [
+        "linux user's manual"        => "Linux User's Manual",
+        "linux user manual"          => "Linux User's Manual",
+
+        "linux programmer's manual"  => "Linux Programmer's Manual",
+        "linux programmer'smanual"   => "Linux Programmer's Manual",
+        "linuxprogrammer's manual"   => "Linux Programmer's Manual",
+
+        "library functions manual"   => "Library Functions Manual",
+
+        "user commands"              => "User Commands",
+
+        "linux system calls"         => "Linux System Calls",
+        "system calls manual"        => "Linux System Calls",
+
+        "linux key management calls" => "Linux Key Management Calls",
+
+        "linux system administration" => "Linux System Administration",
+
+        "miscellaneous information manual" => "Miscellaneous Information Manual",
+    ];
+
     /**
      * Create a new command instance.
      *
@@ -73,7 +101,6 @@ class GetLinuxKernelManPages extends Command
                 preg_match('/(.*)\.(\d)/', $file_name, $matches);
                 $command_name = $matches[1];
                 $section = (int) $matches[2];
-                echo "Section $section: $command_name\n";
 
                 // Generate HTML
                 $process = new Process(array(
@@ -92,7 +119,6 @@ class GetLinuxKernelManPages extends Command
 
                 $html = $process->getOutput();
 
-                unset($doc);
                 $doc = new \DOMDocument;
                 $doc->loadXML($html);
                 $doc_body_only = new \DOMDocument;
@@ -100,11 +126,27 @@ class GetLinuxKernelManPages extends Command
                 foreach($body->childNodes as $child) {
                     $doc_body_only->appendChild($doc_body_only->importNode($child, true));
                 }
-                $html = $doc_body_only->saveHTML();
+
+                $body_html = $doc_body_only->saveHTML();
+
+                // Strip out <table class='head'> tag
+                $html = mb_eregi_replace("<\s*table\s*class=\"head\"\s*[^>]*>(.*?)</\s*table\s*>", '', $html);
+
+                $dom = new \PHPHtmlParser\Dom();
+                $dom->load($body_html);
+
+                $category = $dom->find('.head-vol')->text;
+                if (isset($this->category_synonyms[strtolower($category)]))
+                {
+                    $category = $this->category_synonyms[strtolower($category)];
+                }
+
+                echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $command_name);
 
                 $page = \App\Page::firstOrCreate(['name' => $command_name]);
-                $page->section = $section;
-                $page->raw_html = $html;
+                $page->section = (int)$section;
+                $page->category = trim($category);
+                $page->raw_html = trim($html);
                 $page->save();
             }
         }
