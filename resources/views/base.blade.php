@@ -12,7 +12,15 @@
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
 
     </head>
-    <body>
-        @yield('content')
+    <body class="full-page">
+        <div class="full-page-content">
+            @yield('content')
+        </div>
+
+        <footer class="footer mt-3">
+            <div class="container py-3">
+                <p class="text-muted m-0">Made by <a href="https://camchenry.com">Cameron McHenry</a></p>
+            </div>
+        </footer>
     </body>
 </html>

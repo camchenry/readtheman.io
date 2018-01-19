@@ -11,6 +11,23 @@
 |
 */
 
+Route::get('/', function () {
+    $sections = \App\Page::select('section')->distinct()->get();
+    return view('home', compact('sections'));
+});
+Route::get('/pages', function () {
+    $sections = DB::table('pages')
+        ->get()
+        ->sortBy('section')
+        ->groupBy('section');
+
+    foreach($sections as $index => $section)
+    {
+        $sections[$index] = $section->sortBy('name');
+    }
+
+    return view('pages', compact('sections'));
+});
 Route::get('/pages/{page}', function (\App\Page $page) {
     if (!$page) {
         abort(404);
@@ -18,12 +35,4 @@ Route::get('/pages/{page}', function (\App\Page $page) {
     else {
         return view('page', compact('page'));
     }
-});
-
-Route::get('/', function () {
-    $sections = DB::table('pages')
-        ->get()
-        ->groupBy('section');
-
-    return view('pages', compact('sections'));
 });

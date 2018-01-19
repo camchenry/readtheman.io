@@ -1,17 +1,7 @@
 // Variables
 @import "variables";
 
-@import "~normalize.css/normalize.css";
-
-*, *:before, *:after {
-    box-sizing: border-box;
-}
-body {
-    background: #fff;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    width: 720px;
-    margin: 20px auto;
-}
+@import "~bootstrap/scss/bootstrap.scss";
 
 /*
  *
@@ -47,26 +37,39 @@ table.foot {
 
 .manual-text {
     pre {
-        font-family: "Roboto Mono", monospace;
         background: #eee;
         padding: 1em;
         border: 1px solid #ccc;
     }
     b {
-        font-family: "Roboto Mono", monospace;
+        font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
     /* Table styles */
     .tbl {
-        width: 100%;
-        border: 1px solid #ccc;
+        @extend .table;
+        @extend .table-bordered;
+        @extend .table-striped;
     }
 
     h1.Sh {
-        margin-top: 3rem;
+        margin-top: 2.5rem;
     }
-    h1 .selflink {
+
+    .selflink {
         text-decoration: none;
         color: inherit;
     }
+}
+
+.full-page {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.full-page-content {
+    flex: 1;
+}
+.footer {
+    background: #eee;
 }
