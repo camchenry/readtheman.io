@@ -10100,3 +10100,14 @@ table.foot .foot-date::before {
   background: #eee;
 }
 
+/*
+ * Search
+ */
+
+.search-result em {
+  background: #FFF176;
+  font-weight: bold;
+  font-style: normal;
+  padding: 2px;
+}
+

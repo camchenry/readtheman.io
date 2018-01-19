@@ -6,17 +6,15 @@
     <div class="my-4 container">
         <h1>Pages</h1>
 
-        @foreach($sections as $num => $section)
-            <h2>Section {{ $num }}</h2>
-            @foreach($section->chunk(3) as $chunk)
+        @foreach($pages as $page)
+            <div class="search-result">
                 <div class="row">
-                    @foreach($chunk as $page)
-                        <div class="col">
-                            <a href="{{ url('pages/' . $page->name) }}">{{$page->name}}</a>
-                        </div>
-                    @endforeach
+                    <div class="col">
+                        <h3><a href="{{ url('pages/' . $page->name) }}">{{$page->name}}</a></h3>
+                        <p>{!! $highlights[$page->name]['text']['value'] !!}</p>
+                    </div>
                 </div>
-            @endforeach
+            </div>
         @endforeach
     </div>
 @endsection
