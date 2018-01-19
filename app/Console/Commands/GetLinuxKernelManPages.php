@@ -98,7 +98,7 @@ class GetLinuxKernelManPages extends Command
             foreach($files as $file_name)
             {
                 preg_match('/(.*)\.(\d)/', $file_name, $matches);
-                $command_name = $matches[1];
+                $command_name = trim($matches[1]);
                 $section = (int) $matches[2];
 
                 // Generate HTML
@@ -136,14 +136,20 @@ class GetLinuxKernelManPages extends Command
                     $bold = $bolded->item($i);
                     $text = trim($bold->textContent);
 
-                    if (!empty($text)) {
-                        if (\App\Page::where('name', '=', $text)->exists()) {
-                            $link = $doc->createElement('a');
-                            $link->textContent = $text;
-                            $link->setAttribute('href', \URL::to('/pages/' . $text));
-                            $bold->textContent = '';
-                            $bold->appendChild($link);
-                        }
+                    if (empty($text)) {
+                        continue;
+                    }
+
+                    if ($text === $command_name) {
+                        continue;
+                    }
+
+                    if (\App\Page::where('name', '=', $text)->exists()) {
+                        $link = $doc->createElement('a');
+                        $link->textContent = $text;
+                        $link->setAttribute('href', \URL::to('/pages/' . $text));
+                        $bold->textContent = '';
+                        $bold->appendChild($link);
                     }
                 }
 
