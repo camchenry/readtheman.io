@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-import InstantSearch from 'vue-instantsearch';
 
 window.Vue = require('vue');
 
@@ -15,8 +14,18 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+import InstantSearch from 'vue-instantsearch';
+import Search from './Search.vue';
+Vue.use(InstantSearch);
+Vue.component('search', Search);
+
+var app_data = {
+    search: {
+        query_text: ''
+    },
+};
 
 const app = new Vue({
-    el: '#app'
+    el: '#search_app',
+    data: app_data
 });

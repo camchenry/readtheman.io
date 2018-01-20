@@ -13,13 +13,10 @@ declare(strict_types=1);
 */
 
 Route::get('/', function () {
-    $sections = \App\Page::select('section')->distinct()->get();
-    return view('home', compact('sections'));
+    return view('home');
 });
 Route::get('/pages', function () {
-    $pages = [];
-
-    return view('pages', compact('pages', 'highlights', 'query'));
+    return view('pages');
 });
 Route::get('/pages/{page}', function (\App\Page $page) {
     if (!$page) {
@@ -28,25 +25,4 @@ Route::get('/pages/{page}', function (\App\Page $page) {
     else {
         return view('page', compact('page'));
     }
-});
-Route::get('/pages/search/{query}', function (string $search_value) {
-    /* $sections = DB::table('pages') */
-    /*     ->get() */
-    /*     ->sortBy('section') */
-    /*     ->groupBy('section'); */
-
-    $algolia = new \AlgoliaSearch\Client(env('ALGOLIA_APP_ID'), env('ALGOLIA_SEARCH_KEY'));
-    $index =$algolia->initIndex('live_man_pages');
-    $query = $index->search(trim($search_value));
-
-    $pages = [];
-    $highlights = [];
-    foreach($query['hits'] as $hit) {
-        $page = \App\Page::where('name', '=', $hit['name'])->first();
-        $pages[] = $page;
-
-        $highlights[$page->name] = $hit['_highlightResult'];
-    }
-
-    return view('pages', compact('pages', 'highlights', 'query'));
 });

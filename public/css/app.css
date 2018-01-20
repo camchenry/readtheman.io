@@ -10104,10 +10104,9 @@ table.foot .foot-date::before {
  * Search
  */
 
-.search-result em {
+.ais-highlight em {
+  color: #212529;
   background: #FFF176;
-  font-weight: bold;
   font-style: normal;
-  padding: 2px;
 }
 

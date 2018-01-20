@@ -4,13 +4,17 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="keywords" content="linux,man page,online,kernel,c,unix"/>
+        <meta name="description" content="Online Linux Man Pages"/>
 
         <title>@yield('title') | Man Pages</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,700" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
+        @yield('stylesheets')
 
+        @yield('scripts')
     </head>
     <body class="full-page">
         <div class="full-page-content">
