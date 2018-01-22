@@ -38,7 +38,9 @@
                     <template slot-scope="{ result }">
                         <div>
                         <h3>
-                            <a :href="'{{ URL::to('/pages') }}' + '/' + result.name">@{{ result.name }}</a>
+                            <a :href="'{{ URL::to('/pages') }}' + '/' + result.name">
+                                <ais-highlight :result="result" attribute-name="name"></ais-highlight>
+                            </a>
                         </h3>
                         <p class="text-muted">
                             <ais-highlight :result="result" attribute-name="text"></ais-highlight>
