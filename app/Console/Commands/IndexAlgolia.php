@@ -44,6 +44,20 @@ class IndexAlgolia extends Command
 
         $index = $client->initIndex($this->indexName);
 
+        $index->setSettings([
+            'attributesForFaceting' => [
+                'section',
+                'category',
+                'os',
+                'source'
+            ],
+            'attributesToHighlight' => [
+                'name',
+                'short_description',
+                'description',
+            ],
+        ]);
+
         $pages = \App\Page::get();
         $records = [];
         foreach($pages as $page) {
@@ -59,7 +73,7 @@ class IndexAlgolia extends Command
             $excerpt = str_replace("DESCRIPTION\n", '', $excerpt);
             $excerpt = str_replace("SYNOPSIS\n", '', $excerpt);
 
-            $records[] = [
+            $record = [
                 'objectID'          => $page->id,
                 'name'              => trim($page->name),
                 'section'           => (int)$page->section,
@@ -67,8 +81,16 @@ class IndexAlgolia extends Command
                 'updated'           => $page->page_updated_at->timestamp,
                 'description'       => $excerpt,
                 'short_description' => trim($page->short_description),
+                'source'            => trim($page->source),
             ];
+
+            if ($page->os !== null) {
+                $record['os'] = trim($page->os);
+            }
+
+            $records[] = $record;
         }
+        print_r($records);
         /* $index->addObjects($records); */
     }
 

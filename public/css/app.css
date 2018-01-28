@@ -9279,6 +9279,7 @@ table.foot .foot-date::before {
 
 .manual-text {
   /* Table styles */
+  /* Equivalent to a line break */
 }
 
 .manual-text pre {
@@ -9295,9 +9296,17 @@ table.foot .foot-date::before {
   margin-top: 2.5rem;
 }
 
+.manual-text h2.Ss {
+  margin-top: 1rem;
+}
+
 .manual-text .selflink {
   text-decoration: none;
   color: inherit;
+}
+
+.manual-text .Pp {
+  margin-top: 2em;
 }
 
 .full-page {
@@ -9327,5 +9336,13 @@ table.foot .foot-date::before {
 
 .ais-results h3 em {
   padding: 0;
+}
+
+.ais-clear--disabled {
+  display: none;
+}
+
+.ais-powered-by {
+  display: inline-block;
 }
 

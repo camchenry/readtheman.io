@@ -18,21 +18,21 @@
              >
              <div class="row">
                  <div class="col">
-                     <ais-search-box>
+                     <ais-search-box class="mt-2 mb-3">
                          <div class="input-group">
                              <ais-input
                               placeholder="Search..."
-                              :class-names="{'ais-input': 'mt-2 mb-3 form-control form-control-lg'}"
-                              />
+                              :class-names="{'ais-input': 'form-control form-control-lg'}"
+                              ></ais-input>
 
-                             <span class="input-group-btn">
-                                 <ais-clear :class-names="{'ais-clear': 'btn btn-default'}">
-                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                     </ais-clear>
-                                     <button class="btn btn-default" type="submit">
-                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                     </button>
-                             </span>
+                             <div class="input-group-append">
+                                 <ais-clear :class-names="{'ais-clear': 'btn btn-outline-secondary'}">
+                                     <span aria-hidden="true">X</span>
+                                 </ais-clear>
+                                 <button class="btn btn-primary" type="submit">
+                                     <span aria-hidden="true">Search</span>
+                                 </button>
+                             </div>
                          </div><!-- /input-group -->
 
                     </ais-search-box>
@@ -41,39 +41,43 @@
              <div class="row">
                  <div class="col-md-3">
                      <h5 class="text-muted">Refine by</h5>
-                     <h6><b>Category</b></h6>
-                     <ul class="list-unstyled">
-                     @foreach ($categories as $category)
-                         <li>
-                             <label>
-                                 <input type="checkbox">
-                                 {{ $category->category }} <small class="text-muted">({{ $category->total }})</small>
-                             </label>
-                         </li>
-                     @endforeach
-                     <h6><b>OS</b></h6>
-                     <ul class="list-unstyled">
-                     @foreach ($oses as $os)
-                         <li>
-                             <label>
-                                 <input type="checkbox">
-                                 {{ $os->os }} <small class="text-muted">({{ $os->total }})</small>
-                             </label>
-                         </li>
-                     @endforeach
-                     <h6><b>Source</b></h6>
-                     <ul class="list-unstyled">
-                     @foreach ($sources as $source)
-                         <li>
-                             <label>
-                                 <input type="checkbox">
-                                 {{ $source->source }} <small class="text-muted">({{ $source->total }})</small>
-                             </label>
-                         </li>
-                     @endforeach
-                     </ul>
+                     <ais-refinement-list attribute-name="category" :class-names="{
+                         'ais-refinement-list__count': 'badge badge-light',
+                         'ais-refinement-list__item': 'checkbox'
+                         }">
+                         <h6 slot="header"><b>Category</b></h6>
+                     </ais-refinement-list>
+
+                     <ais-refinement-list attribute-name="source" :class-names="{
+                         'ais-refinement-list__count': 'badge badge-light',
+                         'ais-refinement-list__item': 'checkbox'
+                         }">
+                         <h6 slot="header"><b>Source</b></h6>
+                     </ais-refinement-list>
+
+                     <ais-refinement-list attribute-name="os" :class-names="{
+                         'ais-refinement-list__count': 'badge badge-light',
+                         'ais-refinement-list__item': 'checkbox'
+                         }">
+                         <h6 slot="header"><b>OS</b></h6>
+                     </ais-refinement-list>
+
+                     <ais-refinement-list attribute-name="section" :class-names="{
+                         'ais-refinement-list__count': 'badge badge-light',
+                         'ais-refinement-list__item': 'checkbox'
+                         }">
+                         <h6 slot="header"><b>Section</b></h6>
+                     </ais-refinement-list>
                  </div>
                  <div class="col-md-9">
+                    <div class="row py-2">
+                        <div class="col-md-4">
+                            <ais-stats class="text-muted"></ais-stats>
+                        </div>
+                        <div class="col form-inline justify-content-end">
+                            <ais-powered-by class="px-3"></ais-powered-by>
+                        </div>
+                    </div>
                 <ais-results>
                     <template slot-scope="{ result }">
                         <div class="card mb-2">

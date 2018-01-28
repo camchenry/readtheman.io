@@ -55,10 +55,18 @@ table.foot {
     h1.Sh {
         margin-top: 2.5rem;
     }
+    h2.Ss {
+        margin-top: 1rem;
+    }
 
     .selflink {
         text-decoration: none;
         color: inherit;
+    }
+
+    /* Equivalent to a line break */
+    .Pp {
+        margin-top: 2em;
     }
 }
 
@@ -88,4 +96,10 @@ table.foot {
             padding: 0;
         }
     }
+}
+.ais-clear--disabled {
+    display: none;
+}
+.ais-powered-by {
+    display: inline-block;
 }
