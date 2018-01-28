@@ -96,6 +96,7 @@ class GetLinuxKernelManPages extends Command
             $section_dir = $directory . "/man$section";
 
             $files = array_diff(scandir($section_dir), array('..', '.'));
+            $oses = [];
             foreach($files as $file_name)
             {
                 preg_match('/(.*)\.(\d)/', $file_name, $matches);
@@ -167,7 +168,6 @@ class GetLinuxKernelManPages extends Command
                     $doc_body_only->appendChild($root_div);
 
                     foreach($sections as $_section) {
-                        echo "SECTION - {$_section['id']}\n";
                         $parent_div = $doc_body_only->createElement('section');
                         $parent_div->setAttribute('id', $_section['id']);
                         $root_div->appendChild($parent_div);
@@ -241,17 +241,21 @@ class GetLinuxKernelManPages extends Command
                     $updated_at_date = \DateTime::createFromFormat('F j, Y', $updated_at, $time_zone);
                 }
 
-                // @TODO: Parse the footer OS tag .foot-os
+                $os = $dom->find('.foot-os')->text;
 
                 echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $command_name);
 
                 $page = \App\Page::firstOrCreate(['name' => $command_name]);
+                $page->source = 'Linux kernel';
                 $page->section = (int)$section;
                 $page->category = trim($category);
                 $page->raw_html = trim($html);
                 $page->short_description = $this->trimAndClean($short_description);
                 $page->description = $this->trimAndClean($description);
                 $page->page_updated_at = $updated_at_date->format('Y-m-d H:i:s');
+                if (!empty($os)) {
+                    $page->os = $this->trimAndClean($os);
+                }
                 $page->save();
             }
         }

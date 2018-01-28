@@ -463,7 +463,8 @@ small,
 }
 
 mark,
-.mark {
+.mark,
+.ais-highlight em {
   padding: 0.2em;
   background-color: #fcf8e3;
 }
@@ -9324,8 +9325,7 @@ table.foot .foot-date::before {
  * Search
  */
 
-.ais-highlight em {
-  background: #FFF176;
-  font-style: normal;
+.ais-results h3 em {
+  padding: 0;
 }
 

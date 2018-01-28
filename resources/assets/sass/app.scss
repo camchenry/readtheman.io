@@ -79,7 +79,13 @@ table.foot {
  */
 .ais-highlight {
     em {
-        background: #FFF176;
-        font-style: normal;
+        @extend .mark;
+    }
+}
+.ais-results {
+    h3 {
+        em {
+            padding: 0;
+        }
     }
 }

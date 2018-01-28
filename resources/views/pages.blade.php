@@ -40,7 +40,38 @@
              </div>
              <div class="row">
                  <div class="col-md-3">
-                     <h4>Filters</h4>
+                     <h5 class="text-muted">Refine by</h5>
+                     <h6><b>Category</b></h6>
+                     <ul class="list-unstyled">
+                     @foreach ($categories as $category)
+                         <li>
+                             <label>
+                                 <input type="checkbox">
+                                 {{ $category->category }} <small class="text-muted">({{ $category->total }})</small>
+                             </label>
+                         </li>
+                     @endforeach
+                     <h6><b>OS</b></h6>
+                     <ul class="list-unstyled">
+                     @foreach ($oses as $os)
+                         <li>
+                             <label>
+                                 <input type="checkbox">
+                                 {{ $os->os }} <small class="text-muted">({{ $os->total }})</small>
+                             </label>
+                         </li>
+                     @endforeach
+                     <h6><b>Source</b></h6>
+                     <ul class="list-unstyled">
+                     @foreach ($sources as $source)
+                         <li>
+                             <label>
+                                 <input type="checkbox">
+                                 {{ $source->source }} <small class="text-muted">({{ $source->total }})</small>
+                             </label>
+                         </li>
+                     @endforeach
+                     </ul>
                  </div>
                  <div class="col-md-9">
                 <ais-results>
