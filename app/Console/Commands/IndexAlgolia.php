@@ -47,24 +47,26 @@ class IndexAlgolia extends Command
         $pages = \App\Page::get();
         $records = [];
         foreach($pages as $page) {
-            $text = strip_tags($page->raw_html);
+            /* $text = strip_tags($page->raw_html); */
+            $text = $page->description;
 
             // @Incomplete @TODO: Combine See Also + Name + Description
             // Get first N words, because most of the important
             // text is contained in the name + description at the
             // beginning of a page
-            $excerpt = $this->getSnippet($text, 100);
+            $excerpt = $this->getSnippet($text, 150);
             $excerpt = str_replace("NAME\n", '', $excerpt);
             $excerpt = str_replace("DESCRIPTION\n", '', $excerpt);
             $excerpt = str_replace("SYNOPSIS\n", '', $excerpt);
 
             $records[] = [
-                'objectID' => $page->id,
-                'name' => trim($page->name),
-                'section' => (int)$page->section,
-                'category' => trim($page->category),
-                'updated' => $page->page_updated_at->timestamp,
-                'text' => trim($excerpt),
+                'objectID'          => $page->id,
+                'name'              => trim($page->name),
+                'section'           => (int)$page->section,
+                'category'          => trim($page->category),
+                'updated'           => $page->page_updated_at->timestamp,
+                'description'       => $excerpt,
+                'short_description' => trim($page->short_description),
             ];
         }
         /* $index->addObjects($records); */

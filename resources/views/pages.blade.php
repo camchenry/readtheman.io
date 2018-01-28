@@ -42,8 +42,11 @@
                                 <ais-highlight :result="result" attribute-name="name"></ais-highlight>
                             </a>
                         </h3>
+                        <p class="lead">
+                            <ais-highlight :result="result" attribute-name="short_description"></ais-highlight>
+                        </p>
                         <p class="text-muted">
-                            <ais-highlight :result="result" attribute-name="text"></ais-highlight>
+                            <ais-highlight :result="result" attribute-name="description"></ais-highlight>
                         </p>
                         </div>
                     </template>
