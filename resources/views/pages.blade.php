@@ -18,10 +18,12 @@
              >
              <div class="row">
                  <div class="col">
-                     <ais-search-box class="mt-2 mb-3">
+                     <ais-search-box
+                         class="mt-2 mb-3">
                          <div class="input-group">
                              <ais-input
                               placeholder="Search..."
+                              autofocus="true"
                               :class-names="{'ais-input': 'form-control form-control-lg'}"
                               ></ais-input>
 
@@ -44,28 +46,36 @@
                      <ais-refinement-list attribute-name="category" :class-names="{
                          'ais-refinement-list__count': 'badge badge-light',
                          'ais-refinement-list__item': 'checkbox'
-                         }">
+                         }"
+                        :sort-by="['count:desc', 'name:asc']"
+                     >
                          <h6 slot="header"><b>Category</b></h6>
                      </ais-refinement-list>
 
                      <ais-refinement-list attribute-name="source" :class-names="{
                          'ais-refinement-list__count': 'badge badge-light',
                          'ais-refinement-list__item': 'checkbox'
-                         }">
+                         }"
+                        :sort-by="['count:desc', 'name:asc']"
+                     >
                          <h6 slot="header"><b>Source</b></h6>
                      </ais-refinement-list>
 
                      <ais-refinement-list attribute-name="os" :class-names="{
                          'ais-refinement-list__count': 'badge badge-light',
                          'ais-refinement-list__item': 'checkbox'
-                         }">
+                         }"
+                        :sort-by="['count:desc', 'name:asc']"
+                     >
                          <h6 slot="header"><b>OS</b></h6>
                      </ais-refinement-list>
 
                      <ais-refinement-list attribute-name="section" :class-names="{
                          'ais-refinement-list__count': 'badge badge-light',
                          'ais-refinement-list__item': 'checkbox'
-                         }">
+                         }"
+                        :sort-by="['count:desc', 'name:asc']"
+                     >
                          <h6 slot="header"><b>Section</b></h6>
                      </ais-refinement-list>
                  </div>
@@ -78,25 +88,27 @@
                             <ais-powered-by class="px-3"></ais-powered-by>
                         </div>
                     </div>
-                <ais-results>
-                    <template slot-scope="{ result }">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <h3>
-                                    <a :href="'{{ URL::to('/pages') }}' + '/' + result.name">
-                                        <ais-highlight :result="result" attribute-name="name"></ais-highlight>
-                                    </a>
-                                </h3>
-                                <p class="lead">
-                                <ais-highlight :result="result" attribute-name="short_description"></ais-highlight>
-                                </p>
-                                <p class="text-muted">
-                                <ais-highlight :result="result" attribute-name="description"></ais-highlight>
-                                </p>
+                    <ais-results>
+                        <template slot-scope="{ result }">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <h3>
+                                        <a :href="'{{ URL::to('/pages') }}' + '/' + result.name">
+                                            <ais-highlight :result="result" attribute-name="name"></ais-highlight>
+                                        </a>
+                                    </h3>
+                                    <p class="lead">
+                                    <ais-highlight :result="result" attribute-name="short_description"></ais-highlight>
+                                    </p>
+                                    <p class="text-muted">
+                                    <ais-highlight :result="result" attribute-name="description"></ais-highlight>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </ais-results>
+                        </template>
+                    </ais-results>
+                    <ais-no-results>
+                    </ais-no-results>
                  </div>
              </div>
             </ais-index>

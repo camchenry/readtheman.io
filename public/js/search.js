@@ -9886,7 +9886,7 @@ Vue.component('search', __WEBPACK_IMPORTED_MODULE_1__Search_vue___default.a);
 
 var app_data = {
     search: {
-        query_text: ''
+        query: ''
     }
 };
 

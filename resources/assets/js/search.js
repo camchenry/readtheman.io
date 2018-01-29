@@ -21,7 +21,7 @@ Vue.component('search', Search);
 
 var app_data = {
     search: {
-        query_text: ''
+        query: ''
     },
 };
 
