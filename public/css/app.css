@@ -7469,6 +7469,7 @@ button.bg-dark:focus {
 }
 
 .mb-3,
+#table_of_contents,
 .my-3 {
   margin-bottom: 1rem !important;
 }
@@ -9309,6 +9310,36 @@ table.foot .foot-date::before {
   margin-top: 2em;
 }
 
+#table_of_contents {
+  background: #eee;
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 1rem;
+  float: right;
+}
+
+#table_of_contents h5 {
+  font-weight: bold;
+}
+
+#table_of_contents ol {
+  padding: 0 2rem;
+}
+
+@media (max-width: 767.98px) {
+  #table_of_contents {
+    width: 100%;
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  #table_of_contents {
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
 .full-page {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9344,5 +9375,9 @@ table.foot .foot-date::before {
 
 .ais-powered-by {
   display: inline-block;
+}
+
+[v-cloak] {
+  display: none;
 }
 

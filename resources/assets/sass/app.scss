@@ -70,6 +70,34 @@ table.foot {
     }
 }
 
+#table_of_contents {
+    @extend .mb-3;
+    background: #eee;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 1rem;
+    float: right;
+
+    h5 {
+        font-weight: bold;
+    }
+    ol {
+        padding: 0 2rem;
+    }
+}
+@include media-breakpoint-down(sm) {
+    #table_of_contents {
+        width: 100%;
+        display: block;
+    }
+}
+@include media-breakpoint-up(md) {
+    #table_of_contents {
+        margin-left: 2rem;
+        margin-bottom: 2rem;
+    }
+}
+
 .full-page {
     display: flex;
     min-height: 100vh;
