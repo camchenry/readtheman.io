@@ -71,7 +71,15 @@ class GetLinuxKernelManPages extends Command
         $github_url = 'https://github.com/mkerrisk/man-pages.git';
         if (!file_exists($directory)) {
             $repository = \Gitonomy\Git\Admin::cloneTo($directory, $github_url, false);
+        }
+        else {
+            $process = new Process("sudo su && cd $directory && git pull");
+            $process->run();
 
+            if (!$process->isSuccessful())
+            {
+                exit($process->getErrorOutput());
+            }
         }
 
         $process = new Process(array(
