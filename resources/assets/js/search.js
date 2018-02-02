@@ -15,20 +15,16 @@ window.Vue = require('vue');
  */
 
 import InstantSearch from 'vue-instantsearch';
-import TurbolinksAdapter from 'vue-turbolinks';
+import Search from './Search.vue';
 Vue.use(InstantSearch);
-Vue.use(TurbolinksAdapter);
+Vue.component('search', Search);
 
 var app_data = {
-    query: ''
+    search: {
+        query: ''
+    },
 };
 
-document.addEventListener('turbolinks:load', () => {
-    const app = new Vue({
-        el: '#search_app',
-        data: app_data
-    });
-});
 const app = new Vue({
     el: '#search_app',
     data: app_data

@@ -14,7 +14,6 @@
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
         @yield('stylesheets')
 
-        <script async defer type="text/javascript" src=" {{ url('js/app.js') }}"></script>
         @yield('scripts')
     </head>
     <body class="full-page">
