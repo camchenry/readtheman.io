@@ -93,7 +93,7 @@
                             <div class="card mb-2">
                                 <div class="card-body">
                                     <h3>
-                                        <a :href="'{{ URL::to('/pages') }}' + '/' + result.name">
+                                        <a :href="'{{ URL::to('/pages') }}' + '/' + result.section + '/' + result.name">
                                             <ais-highlight :result="result" attribute-name="name"></ais-highlight>
                                         </a>
                                     </h3>

@@ -16,26 +16,11 @@ Route::get('/', function () {
     return view('home');
 });
 Route::get('/pages', function () {
-    $categories = DB::table('pages')
-        ->select('category', DB::raw('count(*) as total'))
-        ->groupBy('category')
-        ->orderBy('total', 'desc')
-        ->get();
-    $oses = DB::table('pages')
-        ->select('os', DB::raw('count(*) as total'))
-        ->whereNotNull('os')
-        ->groupBy('os')
-        ->orderBy('total', 'desc')
-        ->get();
-    $sources = DB::table('pages')
-        ->select('source', DB::raw('count(*) as total'))
-        ->whereNotNull('source')
-        ->groupBy('source')
-        ->orderBy('total', 'desc')
-        ->get();
-    return view('pages', compact('categories', 'oses', 'sources'));
+    return view('pages');
 });
-Route::get('/pages/{page}', function (\App\Page $page) {
+Route::get('/pages/{section}/{page}', function (string $section, string $page) {
+    $page = \App\Page::where('section', '=', $section)->where('name', '=', $page)->first();
+
     if (!$page) {
         abort(404);
     }

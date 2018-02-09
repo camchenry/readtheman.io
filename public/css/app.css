@@ -1921,7 +1921,7 @@ pre code {
 }
 
 .table,
-.manual-text .tbl {
+.man-page .tbl {
   width: 100%;
   max-width: 100%;
   margin-bottom: 1rem;
@@ -1929,30 +1929,30 @@ pre code {
 }
 
 .table th,
-.manual-text .tbl th,
+.man-page .tbl th,
 .table td,
-.manual-text .tbl td {
+.man-page .tbl td {
   padding: 0.75rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
 
 .table thead th,
-.manual-text .tbl thead th {
+.man-page .tbl thead th {
   vertical-align: bottom;
   border-bottom: 2px solid #dee2e6;
 }
 
 .table tbody + tbody,
-.manual-text .tbl tbody + tbody {
+.man-page .tbl tbody + tbody {
   border-top: 2px solid #dee2e6;
 }
 
 .table .table,
-.manual-text .tbl .table,
-.table .manual-text .tbl,
-.manual-text .table .tbl,
-.manual-text .tbl .tbl {
+.man-page .tbl .table,
+.table .man-page .tbl,
+.man-page .table .tbl,
+.man-page .tbl .tbl {
   background-color: #fff;
 }
 
@@ -1962,26 +1962,26 @@ pre code {
 }
 
 .table-bordered,
-.manual-text .tbl {
+.man-page .tbl {
   border: 1px solid #dee2e6;
 }
 
 .table-bordered th,
-.manual-text .tbl th,
+.man-page .tbl th,
 .table-bordered td,
-.manual-text .tbl td {
+.man-page .tbl td {
   border: 1px solid #dee2e6;
 }
 
 .table-bordered thead th,
-.manual-text .tbl thead th,
+.man-page .tbl thead th,
 .table-bordered thead td,
-.manual-text .tbl thead td {
+.man-page .tbl thead td {
   border-bottom-width: 2px;
 }
 
 .table-striped tbody tr:nth-of-type(odd),
-.manual-text .tbl tbody tr:nth-of-type(odd) {
+.man-page .tbl tbody tr:nth-of-type(odd) {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -2125,14 +2125,14 @@ pre code {
 }
 
 .table .thead-dark th,
-.manual-text .tbl .thead-dark th {
+.man-page .tbl .thead-dark th {
   color: #fff;
   background-color: #212529;
   border-color: #32383e;
 }
 
 .table .thead-light th,
-.manual-text .tbl .thead-light th {
+.man-page .tbl .thead-light th {
   color: #495057;
   background-color: #e9ecef;
   border-color: #dee2e6;
@@ -2150,12 +2150,12 @@ pre code {
 }
 
 .table-dark.table-bordered,
-.manual-text .table-dark.tbl {
+.man-page .table-dark.tbl {
   border: 0;
 }
 
 .table-dark.table-striped tbody tr:nth-of-type(odd),
-.manual-text .table-dark.tbl tbody tr:nth-of-type(odd) {
+.man-page .table-dark.tbl tbody tr:nth-of-type(odd) {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -2173,7 +2173,7 @@ pre code {
   }
 
   .table-responsive-sm > .table-bordered,
-  .manual-text .table-responsive-sm > .tbl {
+  .man-page .table-responsive-sm > .tbl {
     border: 0;
   }
 }
@@ -2188,7 +2188,7 @@ pre code {
   }
 
   .table-responsive-md > .table-bordered,
-  .manual-text .table-responsive-md > .tbl {
+  .man-page .table-responsive-md > .tbl {
     border: 0;
   }
 }
@@ -2203,7 +2203,7 @@ pre code {
   }
 
   .table-responsive-lg > .table-bordered,
-  .manual-text .table-responsive-lg > .tbl {
+  .man-page .table-responsive-lg > .tbl {
     border: 0;
   }
 }
@@ -2218,7 +2218,7 @@ pre code {
   }
 
   .table-responsive-xl > .table-bordered,
-  .manual-text .table-responsive-xl > .tbl {
+  .man-page .table-responsive-xl > .tbl {
     border: 0;
   }
 }
@@ -2232,7 +2232,7 @@ pre code {
 }
 
 .table-responsive > .table-bordered,
-.manual-text .table-responsive > .tbl {
+.man-page .table-responsive > .tbl {
   border: 0;
 }
 
@@ -9226,21 +9226,21 @@ a.text-dark:focus {
   }
 
   .table,
-  .manual-text .tbl {
+  .man-page .tbl {
     border-collapse: collapse !important;
   }
 
   .table td,
-  .manual-text .tbl td,
+  .man-page .tbl td,
   .table th,
-  .manual-text .tbl th {
+  .man-page .tbl th {
     background-color: #fff !important;
   }
 
   .table-bordered th,
-  .manual-text .tbl th,
+  .man-page .tbl th,
   .table-bordered td,
-  .manual-text .tbl td {
+  .man-page .tbl td {
     border: 1px solid #ddd !important;
   }
 }
@@ -9278,35 +9278,35 @@ table.foot .foot-date::before {
   content: 'Last updated: ';
 }
 
-.manual-text {
+.man-page {
   /* Table styles */
   /* Equivalent to a line break */
 }
 
-.manual-text pre {
+.man-page pre {
   background: #eee;
   padding: 1em;
   border: 1px solid #ccc;
 }
 
-.manual-text b {
+.man-page b {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-.manual-text h1.Sh {
+.man-page h1.Sh {
   margin-top: 2.5rem;
 }
 
-.manual-text h2.Ss {
+.man-page h2.Ss {
   margin-top: 1rem;
 }
 
-.manual-text .selflink {
+.man-page .selflink {
   text-decoration: none;
   color: inherit;
 }
 
-.manual-text .Pp {
+.man-page .Pp {
   margin-top: 2em;
 }
 
