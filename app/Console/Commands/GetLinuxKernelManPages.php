@@ -150,6 +150,7 @@ class GetLinuxKernelManPages extends Command
                 $toc_div->setAttribute('id', 'table_of_contents');
                 $doc_body_only->appendChild($toc_div);
 
+
                 // Add sectioning elements and rearrange section IDs
                 if ($root_div) {
                     $in_section = false;
@@ -189,7 +190,9 @@ class GetLinuxKernelManPages extends Command
                     }
                 }
 
+
                 $doc = $doc_body_only;
+
 
                 /*
                  * Table of Contents
@@ -318,9 +321,18 @@ class GetLinuxKernelManPages extends Command
 
                 echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $command_name);
 
-                $page = \App\Page::firstOrCreate(['name' => $command_name]);
-                $page->source = 'Linux kernel';
-                $page->section = (int)$section;
+                $page = \App\Page::firstOrCreate(
+                    [
+                        'name' => $command_name,
+                        'source' => 'Linux kernel',
+                        'section' => $section,
+                    ],
+                    [
+                        'name' => $command_name,
+                        'source' => 'Linux kernel',
+                        'section' => $section,
+                    ]
+                );
                 $page->category = trim($category);
                 $page->raw_html = trim($html);
                 $page->short_description = $this->trimAndClean($short_description);

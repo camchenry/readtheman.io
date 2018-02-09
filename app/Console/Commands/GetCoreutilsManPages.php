@@ -92,16 +92,31 @@ class GetCoreutilsManPages extends Command
         }
 
         echo "Bootstrapping coreutils.\n";
-        $process = new Process("./bootstrap");
+        $process = new Process("cd {$directory} && ./bootstrap");
+        $process->setTimeout(900);
         $process->run();
+        if (!$process->isSuccessful())
+        {
+            exit($process->getErrorOutput());
+        }
 
         echo "Configuring coreutils.\n";
-        $process = new Process("./configure");
+        $process = new Process("cd {$directory} && ./configure");
+        $process->setTimeout(900);
         $process->run();
+        if (!$process->isSuccessful())
+        {
+            exit($process->getErrorOutput());
+        }
 
         echo "Running automake.\n";
-        $process = new Process("make");
+        $process = new Process("cd {$directory} && make");
+        $process->setTimeout(900);
         $process->run();
+        if (!$process->isSuccessful())
+        {
+            exit($process->getErrorOutput());
+        }
 
         $section = 1;
         $process = new Process("sudo mkdir -p {$directory}/man/man{$section}");
@@ -196,6 +211,7 @@ class GetCoreutilsManPages extends Command
                     }
                 }
             }
+
 
             $doc = $doc_body_only;
 
@@ -328,8 +344,18 @@ class GetCoreutilsManPages extends Command
 
             echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $command_name);
 
-            $page = \App\Page::firstOrCreate(['name' => $command_name, 'source' => 'coreutils']);
-            $page->section = (int)$section;
+            $page = \App\Page::firstOrCreate(
+                [
+                    'name' => $command_name,
+                    'source' => 'Coreutils',
+                    'section' => $section,
+                ],
+                [
+                    'name' => $command_name,
+                    'source' => 'Coreutils',
+                    'section' => $section,
+                ]
+            );
             $page->category = trim($category);
             $page->raw_html = trim($html);
             $page->short_description = $this->trimAndClean($short_description);
