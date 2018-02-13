@@ -270,9 +270,10 @@ class GetLinuxKernelManPages extends Command
                     }
 
                     if (\App\Page::where('name', '=', $text)->exists()) {
+                        $page = \App\Page::where('name', '=', $text)->first();
                         $link = $doc->createElement('a');
                         $link->textContent = $text;
-                        $link->setAttribute('href', \URL::to('/pages/' . $text));
+                        $link->setAttribute('href', \URL::to('/pages/' . $page->section . '/' . $text));
                         $bold->textContent = '';
                         $bold->appendChild($link);
                     }
