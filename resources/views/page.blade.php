@@ -2,6 +2,8 @@
 
 @section('title', $page->name)
 
+@section('meta.description', $page->short_description);
+
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" async></script>
     <script>
