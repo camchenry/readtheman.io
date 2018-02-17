@@ -38,7 +38,7 @@ class ImportHelper
             // add list item
             $li = $doc->createElement('li');
             $head->appendChild($li);
-            $a = $doc->createElement('a', htmlspecialchars($headline->textContent));
+            $a = $doc->createElement('a', htmlspecialchars(self::trimAndClean($headline->textContent)));
             $head->lastChild->appendChild($a);
 
             // build ID
@@ -59,6 +59,24 @@ class ImportHelper
             $headline->insertBefore($a, $headline->firstChild);
         }
 
-        return $frag;
+        $toc_div = $doc->createElement('div');
+        $toc_div->setAttribute('id', 'table_of_contents');
+
+        // append fragment to document
+        $toc_header = $doc->createElement('h5');
+        $toc_header->nodeValue = 'Table of Contents';
+        $toc_div->appendChild($toc_header);
+        $toc_div->appendChild($frag);
+
+        return $toc_div;
+    }
+
+    public static function trimAndClean(string $text) {
+        // Remove redundant whitespace
+        $text = preg_replace("/\s\s+/", ' ', $text);
+
+        $text = trim($text);
+
+        return $text;
     }
 }

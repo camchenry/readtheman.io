@@ -8,7 +8,19 @@ class Page extends Model
 {
     protected $table = 'pages';
 
-    protected $fillable = ['name', 'section', 'raw_html', 'formatted_html', 'category', 'page_updated_at', 'source', 'os', 'description', 'short_description'];
+    protected $fillable = [
+        'name',
+        'section',
+        'raw_html',
+        'formatted_html',
+        'category',
+        'page_updated_at',
+        'source',
+        'os',
+        'description',
+        'short_description',
+        'table_of_contents_html',
+    ];
 
     protected $dates = ['page_updated_at'];
 

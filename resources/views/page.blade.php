@@ -28,31 +28,38 @@
             <div class="col-sm-12 col-lg-8">
                 <h5>{{ $page->category }} - Section {{ $page->section }}</h5>
             </div>
-            <div class="col-sm-12 col-lg-4 input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><b>$</b></div>
+        </div>
+        <header>
+            <h1 class="page-name py-4 display-4">{{ $page->name }}</h1>
+        </header>
+        <hr>
+        <div class="row main-row">
+            <div class="col-lg-9">
+                <!-- Table of contents -->
+                <div>
+                    {!! $page->table_of_contents_html !!}
                 </div>
-                <input id="view_in_terminal" class="form-control" type="text" readonly value="man {{ $page->section }} {{ trim($page->name) }}">
-                <div class="input-group-append">
-                    <button class="copy btn btn-secondary" type="button" data-clipboard-target="#view_in_terminal">Copy</button>
+                <article class="mb-4 man-page">
+                    {!! $page->raw_html !!}
+                </article>
+            </div>
+            <div class="col-lg-3">
+                <!-- Copy command -->
+                <div class="mb-3 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><b>$</b></div>
+                    </div>
+                    <input id="view_in_terminal" class="form-control" type="text" readonly value="man {{ $page->section }} {{ trim($page->name) }}">
+                    <div class="input-group-append">
+                        <button class="copy btn btn-secondary" type="button" data-clipboard-target="#view_in_terminal">Copy</button>
+                    </div>
                 </div>
+                <p class="my-2 text-muted">
+                Last updated: <span>{{ $page->page_updated_at->format('F j, Y') }}</span>
+                &nbsp;&bullet;&nbsp;
+                Last fetched: <span>{{ $page->updated_at->format('F j, Y') }}</span>
+                </p>
             </div>
         </div>
-    </div>
-    <header>
-        <div class="container">
-            <h1 class="py-4 display-4">{{ $page->name }}</h1>
-        </div>
-    </header>
-    <div class="container">
-        <p class="my-2 text-muted">
-            Last updated: <span>{{ $page->page_updated_at->format('F j, Y') }}</span>
-            &nbsp;&bullet;&nbsp;
-            Last fetched: <span>{{ $page->updated_at->format('F j, Y') }}</span>
-        </p>
-        <hr>
-        <article class="mb-4 man-page">
-            {!! $page->raw_html !!}
-        </article>
     </div>
 @endsection

@@ -146,10 +146,6 @@ class GetLinuxKernelManPages extends Command
                     }
                 }
 
-                $toc_div = $doc_body_only->createElement('div');
-                $toc_div->setAttribute('id', 'table_of_contents');
-                $doc_body_only->appendChild($toc_div);
-
                 // Add sectioning elements and rearrange section IDs
                 if ($root_div) {
                     $section_number = 0;
@@ -191,12 +187,7 @@ class GetLinuxKernelManPages extends Command
                  * Table of Contents
                  */
                 $table_of_contents = ImportHelper::makeTableOfContents($doc);
-
-                // append fragment to document
-                $toc_header = $doc->createElement('h5');
-                $toc_header->nodeValue = 'Table of Contents';
-                $toc_div->appendChild($toc_header);
-                $toc_div->appendChild($table_of_contents);
+                $table_of_contents_html = $doc->saveHTML($table_of_contents);
 
                 // Add hyperlinks to other pages
                 $bolded = $doc->getElementsByTagName('b');
@@ -277,26 +268,18 @@ class GetLinuxKernelManPages extends Command
                         'section' => $section,
                     ]
                 );
-                $page->category = trim($category);
-                $page->raw_html = trim($html);
-                $page->short_description = $this->trimAndClean($short_description);
-                $page->description = $this->trimAndClean($description);
+                $page->category = ImportHelper::trimAndClean($category);
+                $page->raw_html = ImportHelper::trimAndClean($html);
+                $page->short_description = ImportHelper::trimAndClean($short_description);
+                $page->description = ImportHelper::trimAndClean($description);
                 $page->page_updated_at = $updated_at_date->format('Y-m-d H:i:s');
+                $page->table_of_contents_html = $table_of_contents_html;
                 if (!empty($os)) {
-                    $page->os = $this->trimAndClean($os);
+                    $page->os = ImportHelper::trimAndClean($os);
                 }
                 $page->save();
             }
         }
 
-    }
-
-    public function trimAndClean(string $text) {
-        // Remove redundant whitespace
-        $text = preg_replace("/\s\s+/", ' ', $text);
-
-        $text = trim($text);
-
-        return $text;
     }
 }

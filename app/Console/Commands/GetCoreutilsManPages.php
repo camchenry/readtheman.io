@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Finder\Finder;
+use App\ImportHelper;
 
 class GetCoreutilsManPages extends Command
 {
@@ -112,7 +113,7 @@ class GetCoreutilsManPages extends Command
         array_push($commands,
             [
                 'message' => "Configuring coreutils.\n",
-                'command' => "cd {$directory} && ./configure -C",
+                'command' => "cd {$directory} && sudo ./configure -C",
                 'timeout' => 900,
             ],
             [
@@ -188,10 +189,6 @@ class GetCoreutilsManPages extends Command
                 }
             }
 
-            $toc_div = $doc_body_only->createElement('div');
-            $toc_div->setAttribute('id', 'table_of_contents');
-            $doc_body_only->appendChild($toc_div);
-
             // Add sectioning elements and rearrange section IDs
             if ($root_div) {
                 $in_section = false;
@@ -232,63 +229,8 @@ class GetCoreutilsManPages extends Command
             /*
              * Table of Contents
              */
-            // create document fragment
-            $frag = $doc->createDocumentFragment();
-            // create initial list
-            $frag->appendChild($doc->createElement('ol'));
-            $head = &$frag->firstChild;
-            $xpath = new \DOMXPath($doc);
-            $last = 1;
-
-            // get all H1, H2, …, H6 elements
-            foreach ($xpath->query('//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]') as $headline) {
-                // get level of current headline
-                sscanf($headline->tagName, 'h%u', $curr);
-
-                // move head reference if necessary
-                if ($curr < $last) {
-                    // move upwards
-                    for ($i=$curr; $i<$last; $i++) {
-                        $head = &$head->parentNode->parentNode;
-                    }
-                } else if ($curr > $last && $head->lastChild) {
-                    // move downwards and create new lists
-                    for ($i=$last; $i<$curr; $i++) {
-                        $head->lastChild->appendChild($doc->createElement('ol'));
-                        $head = &$head->lastChild->lastChild;
-                    }
-                }
-                $last = $curr;
-
-                // add list item
-                $li = $doc->createElement('li');
-                $head->appendChild($li);
-                $a = $doc->createElement('a', htmlspecialchars($headline->textContent));
-                $head->lastChild->appendChild($a);
-
-                // build ID
-                $levels = array();
-                $tmp = &$head;
-                // walk subtree up to fragment root node of this subtree
-                while (!is_null($tmp) && $tmp != $frag) {
-                    $levels[] = $tmp->childNodes->length;
-                    $tmp = &$tmp->parentNode->parentNode;
-                }
-                $id = 'sect'.implode('.', array_reverse($levels));
-                // set destination
-                $a->setAttribute('href', '#'.$id);
-                // add anchor to headline
-                $a = $doc->createElement('a');
-                $a->setAttribute('name', $id);
-                $a->setAttribute('id', $id);
-                $headline->insertBefore($a, $headline->firstChild);
-            }
-
-            // append fragment to document
-            $toc_header = $doc->createElement('h5');
-            $toc_header->nodeValue = 'Table of Contents';
-            $toc_div->appendChild($toc_header);
-            $toc_div->appendChild($frag);
+            $table_of_contents = ImportHelper::makeTableOfContents($doc);
+            $table_of_contents_html = $doc->saveHTML($table_of_contents);
 
             // Add hyperlinks to other pages
             $bolded = $doc->getElementsByTagName('b');
@@ -376,6 +318,7 @@ class GetCoreutilsManPages extends Command
             $page->short_description = $this->trimAndClean($short_description);
             $page->description = $this->trimAndClean($description);
             $page->page_updated_at = $updated_at_date->format('Y-m-d H:i:s');
+            $page->table_of_contents_html = $table_of_contents_html;
             if (!empty($os)) {
                 $page->os = $this->trimAndClean($os);
             }
