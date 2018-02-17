@@ -150,27 +150,21 @@ class GetLinuxKernelManPages extends Command
                 $toc_div->setAttribute('id', 'table_of_contents');
                 $doc_body_only->appendChild($toc_div);
 
-
                 // Add sectioning elements and rearrange section IDs
                 if ($root_div) {
-                    $in_section = false;
                     $section_number = 0;
                     $sections = [];
+                    $in_section = false;
 
                     foreach($root_div->childNodes as $sub_child) {
                         if ($sub_child->nodeName === 'h1') {
-                            if ($in_section) {
-                                $in_section = false;
-                            }
-                            else {
-                                $in_section = true;
-                                $section_number++;
-                                $sections[$section_number] = [
-                                    'children' => [],
-                                    'id' => trim($sub_child->getAttribute('id')),
-                                ];
-                                $sub_child->removeAttribute('id');
-                            }
+                            $in_section = true;
+                            $section_number++;
+                            $sections[$section_number] = [
+                                'children' => [],
+                                'id' => trim($sub_child->getAttribute('id')),
+                            ];
+                            $sub_child->removeAttribute('id');
                         }
                         if ($in_section) {
                             $sections[$section_number]['children'][] = $doc_body_only->importNode($sub_child, true);
@@ -180,7 +174,7 @@ class GetLinuxKernelManPages extends Command
                     $root_div = $doc_body_only->importNode($root_div);
                     $doc_body_only->appendChild($root_div);
 
-                    foreach($sections as $_section) {
+                    foreach($sections as $key => $_section) {
                         $parent_div = $doc_body_only->createElement('section');
                         $parent_div->setAttribute('id', $_section['id']);
                         $root_div->appendChild($parent_div);
@@ -189,7 +183,6 @@ class GetLinuxKernelManPages extends Command
                         }
                     }
                 }
-
 
                 $doc = $doc_body_only;
 
@@ -324,12 +317,12 @@ class GetLinuxKernelManPages extends Command
 
                 $page = \App\Page::firstOrCreate(
                     [
-                        'name' => $command_name,
+                        'name' => trim($command_name),
                         'source' => 'Linux kernel',
                         'section' => $section,
                     ],
                     [
-                        'name' => $command_name,
+                        'name' => trim($command_name),
                         'source' => 'Linux kernel',
                         'section' => $section,
                     ]

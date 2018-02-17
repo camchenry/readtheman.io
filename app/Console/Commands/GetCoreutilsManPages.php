@@ -181,18 +181,13 @@ class GetCoreutilsManPages extends Command
 
                 foreach($root_div->childNodes as $sub_child) {
                     if ($sub_child->nodeName === 'h1') {
-                        if ($in_section) {
-                            $in_section = false;
-                        }
-                        else {
-                            $in_section = true;
-                            $section_number++;
-                            $sections[$section_number] = [
-                                'children' => [],
-                                'id' => trim($sub_child->getAttribute('id')),
-                            ];
-                            $sub_child->removeAttribute('id');
-                        }
+                        $in_section = true;
+                        $section_number++;
+                        $sections[$section_number] = [
+                            'children' => [],
+                            'id' => trim($sub_child->getAttribute('id')),
+                        ];
+                        $sub_child->removeAttribute('id');
                     }
                     if ($in_section) {
                         $sections[$section_number]['children'][] = $doc_body_only->importNode($sub_child, true);
@@ -347,12 +342,12 @@ class GetCoreutilsManPages extends Command
 
             $page = \App\Page::firstOrCreate(
                 [
-                    'name' => $command_name,
+                    'name' => trim($command_name),
                     'source' => 'Coreutils',
                     'section' => $section,
                 ],
                 [
-                    'name' => $command_name,
+                    'name' => trim($command_name),
                     'source' => 'Coreutils',
                     'section' => $section,
                 ]
