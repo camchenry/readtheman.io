@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('title', $page->name)
+@section('title', trim($page->name))
 
 @section('meta.description', $page->short_description)
 
