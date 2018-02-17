@@ -15,7 +15,7 @@ class GetCoreutilsManPages extends Command
      *
      * @var string
      */
-    protected $signature = 'manpages:coreutils';
+    protected $signature = 'manpages:coreutils {--fast}';
 
     /**
      * The console command description.
@@ -91,38 +91,57 @@ class GetCoreutilsManPages extends Command
             }
         }
 
-        echo "Bootstrapping coreutils.\n";
-        $process = new Process("cd {$directory} && ./bootstrap");
-        $process->setTimeout(900);
-        $process->run();
-        if (!$process->isSuccessful())
-        {
-            exit($process->getErrorOutput());
-        }
-
-        echo "Configuring coreutils.\n";
-        $process = new Process("cd {$directory} && ./configure");
-        $process->setTimeout(900);
-        $process->run();
-        if (!$process->isSuccessful())
-        {
-            exit($process->getErrorOutput());
-        }
-
-        echo "Running automake.\n";
-        $process = new Process("cd {$directory} && make");
-        $process->setTimeout(900);
-        $process->run();
-        if (!$process->isSuccessful())
-        {
-            exit($process->getErrorOutput());
-        }
-
         $section = 1;
-        $process = new Process("sudo mkdir -p {$directory}/man/man{$section}");
-        $process->run();
-        $process = new Process("sudo mv {$directory}/man/*.{$section} {$directory}/man/man{$section}");
-        $process->run();
+
+        $commands = [
+            [
+                'command' => "sudo rm -rf {$directory}/autom4te.cache",
+            ],
+        ];
+
+        if (!$this->option('fast')) {
+            array_push($commands,
+                [
+                    'message' => "Bootstrapping coreutils.\n",
+                    'command' => "cd {$directory} && ./bootstrap --skip-po",
+                    'timeout' => 900,
+                ]
+            );
+        }
+
+        array_push($commands,
+            [
+                'message' => "Configuring coreutils.\n",
+                'command' => "cd {$directory} && ./configure -C",
+                'timeout' => 900,
+            ],
+            [
+                'message' => "Running automake.\n",
+                'command' => "cd {$directory} && make",
+                'timeout' => 900,
+            ],
+            [
+                'message' => "Creating man directory structure.\n",
+                'command' => "mkdir -p {$directory}/man/man{$section}",
+            ],
+            [
+                'message' => "Moving man pages into directories.\n",
+                'command' => "mv {$directory}/man/*.{$section} {$directory}/man/man{$section}",
+            ]
+        );
+
+        foreach($commands as $command) {
+            if (isset($command['message'])) {
+                echo $command['message'];
+            }
+            $process = new Process($command['command']);
+            $process->setTimeout($command['timeout'] ?? 60);
+            $process->run();
+            if (!$process->isSuccessful())
+            {
+                exit($process->getErrorOutput());
+            }
+        }
 
         $finder = new Finder();
         $finder->files()->in($directory . '/man')->name("/(.*)\.(\d)/");
