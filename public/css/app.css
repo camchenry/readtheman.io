@@ -9334,17 +9334,18 @@ table.foot .foot-date::before {
   padding: 0 2rem;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
   #table_of_contents {
     width: 100%;
     display: block;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   #table_of_contents {
     margin-left: 2rem;
     margin-bottom: 2rem;
+    max-width: 50%;
   }
 }
 

@@ -85,16 +85,17 @@ table.foot {
         padding: 0 2rem;
     }
 }
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
     #table_of_contents {
         width: 100%;
         display: block;
     }
 }
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(lg) {
     #table_of_contents {
         margin-left: 2rem;
         margin-bottom: 2rem;
+        max-width: 50%;
     }
 }
 
