@@ -61,7 +61,6 @@ class IndexAlgolia extends Command
         $pages = \App\Page::get();
         $records = [];
         foreach($pages as $page) {
-            /* $text = strip_tags($page->raw_html); */
             $text = $page->description;
 
             // @Incomplete @TODO: Combine See Also + Name + Description
@@ -90,7 +89,10 @@ class IndexAlgolia extends Command
 
             $records[] = $record;
         }
-        print_r($records);
+        foreach($records as $record)
+        {
+            //print_r($record);
+        }
         /* $index->addObjects($records); */
     }
 
