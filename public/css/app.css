@@ -9277,6 +9277,10 @@ a.text-dark:focus {
   margin-top: 2.5rem;
 }
 
+.man-page section:first-child h1.Sh {
+  margin-top: 0;
+}
+
 .man-page h2.Ss {
   margin-top: 1rem;
 }
@@ -9303,14 +9307,6 @@ a.text-dark:focus {
 
 #table_of_contents ol {
   padding: 0 2rem;
-}
-
-@media (max-width: 1199.98px) {
-  .main-row .col-lg-3 {
-    -webkit-box-ordinal-group: 0;
-        -ms-flex-order: -1;
-            order: -1;
-  }
 }
 
 .full-page {

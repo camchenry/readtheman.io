@@ -29,6 +29,9 @@
     h1.Sh {
         margin-top: 2.5rem;
     }
+    section:first-child h1.Sh {
+        margin-top: 0;
+    }
     h2.Ss {
         margin-top: 1rem;
     }
@@ -55,11 +58,6 @@
     }
     ol {
         padding: 0 2rem;
-    }
-}
-@include media-breakpoint-down(lg) {
-    .main-row .col-lg-3 {
-        order: -1;
     }
 }
 

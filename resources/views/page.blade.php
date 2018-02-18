@@ -33,17 +33,13 @@
             <h1 class="page-name py-4 display-4">{{ $page->name }}</h1>
         </header>
         <hr>
-        <div class="row main-row">
-            <div class="col-lg-9">
-                <!-- Table of contents -->
-                <div>
-                    {!! $page->table_of_contents_html !!}
-                </div>
+        <div class="row">
+            <div class="col-lg-8">
                 <article class="mb-4 man-page">
                     {!! $page->raw_html !!}
                 </article>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <!-- Copy command -->
                 <div class="mb-3 input-group">
                     <div class="input-group-prepend">
@@ -54,10 +50,11 @@
                         <button class="copy btn btn-secondary" type="button" data-clipboard-target="#view_in_terminal">Copy</button>
                     </div>
                 </div>
+                {!! $page->table_of_contents_html !!}
                 <p class="my-2 text-muted">
                 Last updated: <span>{{ $page->page_updated_at->format('F j, Y') }}</span>
-                &nbsp;&bullet;&nbsp;
-                Last fetched: <span>{{ $page->updated_at->format('F j, Y') }}</span>
+                <br>
+                Last generated: <span>{{ $page->updated_at->format('F j, Y') }}</span>
                 </p>
             </div>
         </div>
