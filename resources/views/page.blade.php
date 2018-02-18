@@ -34,12 +34,8 @@
         </header>
         <hr>
         <div class="main row">
-            <div class="col-lg-8">
-                <article class="mb-4 man-page">
-                    {!! $page->raw_html !!}
-                </article>
-            </div>
             <aside class="col-lg-4">
+                {!! $page->table_of_contents_html !!}
                 <!-- Copy command -->
                 <div class="mb-3 input-group">
                     <div class="input-group-prepend">
@@ -50,13 +46,17 @@
                         <button class="copy btn btn-secondary" type="button" data-clipboard-target="#view_in_terminal">Copy</button>
                     </div>
                 </div>
-                {!! $page->table_of_contents_html !!}
                 <p class="my-2 text-muted">
                 Last updated: <span>{{ $page->page_updated_at->format('F j, Y') }}</span>
                 <br>
                 Last generated: <span>{{ $page->updated_at->format('F j, Y') }}</span>
                 </p>
             </aside>
+            <div class="col-lg-8">
+                <article class="mb-4 man-page">
+                    {!! $page->raw_html !!}
+                </article>
+            </div>
         </div>
     </div>
 @endsection
