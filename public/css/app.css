@@ -9309,6 +9309,15 @@ a.text-dark:focus {
   padding: 0 2rem;
 }
 
+@media (max-width: 1199.98px) {
+  .main.row aside {
+    -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+            order: -1;
+    margin-bottom: 2rem;
+  }
+}
+
 .full-page {
   display: -webkit-box;
   display: -ms-flexbox;

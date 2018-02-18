@@ -60,6 +60,12 @@
         padding: 0 2rem;
     }
 }
+@include media-breakpoint-down(lg) {
+    .main.row aside {
+        order: -1;
+        margin-bottom: 2rem;
+    }
+}
 
 .full-page {
     display: flex;

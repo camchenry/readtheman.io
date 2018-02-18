@@ -33,13 +33,13 @@
             <h1 class="page-name py-4 display-4">{{ $page->name }}</h1>
         </header>
         <hr>
-        <div class="row">
+        <div class="main row">
             <div class="col-lg-8">
                 <article class="mb-4 man-page">
                     {!! $page->raw_html !!}
                 </article>
             </div>
-            <div class="col-lg-4">
+            <aside class="col-lg-4">
                 <!-- Copy command -->
                 <div class="mb-3 input-group">
                     <div class="input-group-prepend">
@@ -56,7 +56,7 @@
                 <br>
                 Last generated: <span>{{ $page->updated_at->format('F j, Y') }}</span>
                 </p>
-            </div>
+            </aside>
         </div>
     </div>
 @endsection
