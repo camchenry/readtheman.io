@@ -41,7 +41,7 @@
                  </div>
              </div>
              <div class="row">
-                 <div class="col-md-3">
+                 <div class="col-md-4">
                      <h5 class="text-muted">Refine by</h5>
                      <ais-refinement-list attribute-name="category" :class-names="{
                          'ais-refinement-list__count': 'badge badge-light',
@@ -79,9 +79,9 @@
                          <h6 slot="header"><b>Section</b></h6>
                      </ais-refinement-list>
                  </div>
-                 <div class="col-md-9">
+                 <div class="col-md-8">
                     <div class="row py-2">
-                        <div class="col-md-4">
+                        <div class="col">
                             <ais-stats class="text-muted"></ais-stats>
                         </div>
                         <div class="col form-inline justify-content-end">

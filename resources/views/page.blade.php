@@ -5,8 +5,8 @@
 @section('meta.description', $page->short_description)
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" async></script>
-    <script>
+    <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" async></script>
+    <script async defer>
     document.addEventListener('DOMContentLoaded', function(){
         var clipboard = new Clipboard('.copy');
         console.log(clipboard);
@@ -30,7 +30,7 @@
             </div>
         </div>
         <header>
-            <h1 class="page-name py-4 display-4">{{ $page->name }}</h1>
+            <h1 class="page-name py-2 display-4">{{ $page->name }}</h1>
         </header>
         <hr>
         <div class="main row">
