@@ -3,67 +3,6 @@
 @import "bootstrap.scss";
 @import "util";
 
-/*
- *
- * Manual styles
- *
- */
-
-.page-name {
-    font-size: 3rem;
-    font-weight: bold;
-}
-
-.man-page {
-    pre {
-        background: #eee;
-        padding: 1em;
-        border: 1px solid #ccc;
-    }
-    b {
-        font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-
-    /* Table styles */
-    .tbl {
-        @extend .table;
-        @extend .table-bordered;
-        @extend .table-striped;
-    }
-
-    h1.Sh {
-        margin-top: 2.5rem;
-    }
-    section:first-child h1.Sh {
-        margin-top: 0;
-    }
-    h2.Ss {
-        margin-top: 1rem;
-    }
-
-    .selflink {
-        text-decoration: none;
-        color: inherit;
-    }
-
-    /* Equivalent to a line break */
-    .Pp {
-        margin-top: 2em;
-    }
-}
-
-#table_of_contents {
-}
-#view_in_terminal {
-    background: #fff;
-}
-@include media-breakpoint-down(lg) {
-    .main.row aside {
-        order: -1;
-        margin-bottom: 2rem;
-    }
-}
-
 .full-page {
     display: flex;
     min-height: 100vh;
@@ -76,29 +15,11 @@
     background: #eee;
 }
 
-/*
- * Search
- */
-.ais-highlight {
-    em {
-        @extend .mark;
-    }
-}
-.ais-results {
-    h3 {
-        em {
-            padding: 0;
-        }
-    }
-}
-.ais-clear--disabled {
-    display: none;
-}
-.ais-powered-by {
-    display: inline-block;
-}
-[v-cloak] {
-    display: none;
+.btn-light {
+    border: 1px solid #ced4da !important;
+    background: linear-gradient(-180deg, #fafbfc 0%, #eff3f6 90%);
 }
 
+@import "search";
 @import "navbar";
+@import "manpage";

@@ -1,0 +1,62 @@
+/*
+ *
+ * Manual styles
+ *
+ */
+
+.page-name {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.man-page {
+    pre {
+        background: #eee;
+        padding: 1em;
+        border: 1px solid #ccc;
+    }
+    b {
+        font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    /* Table styles */
+    .tbl {
+        @extend .table;
+        @extend .table-bordered;
+        @extend .table-striped;
+    }
+
+    h1.Sh {
+        margin-top: 2.5rem;
+    }
+    section:first-child h1.Sh {
+        margin-top: 0;
+    }
+    h2.Ss {
+        margin-top: 1rem;
+    }
+
+    .selflink {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Equivalent to a line break */
+    .Pp {
+        margin-top: 2em;
+    }
+}
+
+#table_of_contents {
+}
+#view_in_terminal {
+    font-family: monospace;
+    background: #fff;
+    outline: none;
+}
+@include media-breakpoint-down(lg) {
+    .main.row aside {
+        order: -1;
+        margin-bottom: 2rem;
+    }
+}
