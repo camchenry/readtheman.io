@@ -9,48 +9,21 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Finder\Finder;
 use App\ImportHelper;
 
-class GetCoreutilsManPages extends Command
+class GetGitManPages extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'manpages:coreutils {--fast}';
+    protected $signature = 'manpages:git';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get coreutils man pages';
-
-    /*
-     * Map lowercased category names to the real category name
-     *
-     * @var array[string] = string
-     */
-    public $category_synonyms = [
-        "linux user's manual"        => "Linux User's Manual",
-        "linux user manual"          => "Linux User's Manual",
-
-        "linux programmer's manual"  => "Linux Programmer's Manual",
-        "linux programmer'smanual"   => "Linux Programmer's Manual",
-        "linuxprogrammer's manual"   => "Linux Programmer's Manual",
-
-        "library functions manual"   => "Library Functions Manual",
-
-        "user commands"              => "User Commands",
-
-        "linux system calls"         => "Linux System Calls",
-        "system calls manual"        => "Linux System Calls",
-
-        "linux key management calls" => "Linux Key Management Calls",
-
-        "linux system administration" => "Linux System Administration",
-
-        "miscellaneous information manual" => "Miscellaneous Information Manual",
-    ];
+    protected $description = 'Get git man pages';
 
     /**
      * Create a new command instance.
@@ -69,21 +42,26 @@ class GetCoreutilsManPages extends Command
      */
     public function handle()
     {
-        echo "Installing prerequisite packages.\n";
-        $packages = "autoconf automake autopoint bison gettext gperf git gzip perl rsync tar texinfo";
-        echo "Installing: \n\t" . implode("\n\t", explode(' ', $packages)) . "\n";
+        //
         // Prerequisities
+        //
+        echo "Installing prerequisite packages.\n";
+        $packages = "asciidoc xmlto";
+        echo "Installing: \n\t" . implode("\n\t", explode(' ', $packages)) . "\n";
         $process = new Process("sudo apt-get -y install {$packages}");
         $process->run();
 
-        $directory = storage_path() . '/man_pages/coreutils';
-        $github_url = 'https://github.com/coreutils/coreutils';
-        echo "Fetching coreutils git repository ({$github_url})\n";
+
+
+        $directory = storage_path() . '/man_pages/git';
+        $github_url = 'https://github.com/git/git';
         if (!file_exists($directory)) {
+            echo "Cloning git git repository ({$github_url}) to {$directory}\n";
             $repository = \Gitonomy\Git\Admin::cloneTo($directory, $github_url, false);
         }
         else {
-            $process = new Process("sudo su && cd $directory && git pull");
+            echo "Updating git git repository ({$github_url}) in {$directory}\n";
+            $process = new Process("cd {$directory} && git pull");
             $process->run();
 
             if (!$process->isSuccessful())
@@ -92,43 +70,24 @@ class GetCoreutilsManPages extends Command
             }
         }
 
-        $section = 1;
+        exit('INCOMPLETE');
 
-        $commands = [
-            [
-                'command' => "sudo rm -rf {$directory}/autom4te.cache",
-            ],
-        ];
-
-        if (!$this->option('fast')) {
-            array_push($commands,
-                [
-                    'message' => "Bootstrapping coreutils.\n",
-                    'command' => "cd {$directory} && ./bootstrap --skip-po",
-                    'timeout' => 900,
-                ]
-            );
-        }
+        $commands = [];
 
         array_push($commands,
             [
-                'message' => "Configuring coreutils.\n",
-                'command' => "cd {$directory} && sudo ./configure -C",
+                'message' => "Building documentation.\n",
+                'command' => "cd {$directory} && make prefix={$directory} -C Documentation man",
                 'timeout' => 900,
-            ],
-            [
-                'message' => "Running automake.\n",
-                'command' => "cd {$directory} && make",
-                'timeout' => 900,
-            ],
-            [
-                'message' => "Creating man directory structure.\n",
-                'command' => "mkdir -p {$directory}/man/man{$section}",
-            ],
-            [
-                'message' => "Moving man pages into directories.\n",
-                'command' => "mv {$directory}/man/*.{$section} {$directory}/man/man{$section}",
             ]
+            /* [ */
+            /*     'message' => "Creating man directory structure.\n", */
+            /*     'command' => "mkdir -p {$directory}/man/man{$section}", */
+            /* ], */
+            /* [ */
+            /*     'message' => "Moving man pages into directories.\n", */
+            /*     'command' => "mv {$directory}/man/*.{$section} {$directory}/man/man{$section}", */
+            /* ] */
         );
 
         foreach($commands as $command) {
@@ -142,7 +101,10 @@ class GetCoreutilsManPages extends Command
             {
                 exit($process->getErrorOutput());
             }
+            echo $process->getOutput();
         }
+
+        exit();
 
         $finder = new Finder();
         $finder->files()->in($directory . '/man')->name("/(.*)\.(\d)/");

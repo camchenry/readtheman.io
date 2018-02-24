@@ -68,7 +68,7 @@ class GetLinuxKernelManPages extends Command
      */
     public function handle()
     {
-        $directory = storage_path() . '/linux-man-pages/kernel';
+        $directory = storage_path() . '/man_pages/kernel';
         $github_url = 'https://github.com/mkerrisk/man-pages.git';
         if (!file_exists($directory)) {
             $repository = \Gitonomy\Git\Admin::cloneTo($directory, $github_url, false);
