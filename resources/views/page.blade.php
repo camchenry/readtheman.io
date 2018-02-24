@@ -38,7 +38,7 @@
                     {!! $page->raw_html !!}
                 </article>
             </div>
-            <aside class="col-lg-4">
+            <aside class="man-page-aside col-lg-4">
                 {!! $page->table_of_contents_html !!}
                 <!-- Copy command -->
                 <div class="mb-3 input-group">

@@ -56,6 +56,10 @@ class IndexAlgolia extends Command
                 'short_description',
                 'description',
             ],
+            'attributesToSnippet' => [
+                'description:50'
+            ],
+            'snippetEllipsisText' => '…',
         ]);
 
         $pages = \App\Page::get();

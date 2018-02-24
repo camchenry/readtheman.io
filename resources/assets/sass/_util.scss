@@ -1,3 +1,6 @@
 .unselectable {
     user-select: none;          /* Likely future */
 }
+[v-cloak] {
+    display: none;
+}

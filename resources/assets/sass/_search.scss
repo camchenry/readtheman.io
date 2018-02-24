@@ -1,9 +1,10 @@
 /*
  * Search
  */
-.ais-highlight {
+.ais-highlight,
+.ais-snippet {
     em {
-        @extend .mark;
+        background: hsla(60%, 80%, 87%, 0.8);
     }
 }
 .ais-results {
@@ -12,17 +13,37 @@
             padding: 0;
         }
     }
-
-    .card {
-        box-shadow: 0 4px 4px hsla(0%, 0%, 0%, 0.25);
+    em {
+        border-bottom: 1px solid hsla(0%, 0%, 0%, 0.2);
     }
 }
 .ais-clear--disabled {
     display: none;
 }
+.ais-refinement-list {
+    margin-bottom: 1rem;
+}
+.ais-refinement-list:last-child {
+    margin-bottom: 0;
+}
+.ais-refinement-list__label .badge {
+    font-weight: normal;
+}
+
 .ais-powered-by {
     display: inline-block;
 }
-[v-cloak] {
-    display: none;
+.ais-stats {
+    font-size: 0.8rem;
+}
+
+.refinement-header {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+@include media-breakpoint-down(sm) {
+    .main.row .search-aside {
+        order: -1;
+    }
 }

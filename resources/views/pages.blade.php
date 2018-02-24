@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="my-4 container">
+    <div class="my-2 my-lg-4 my-sm-3 container">
         <h1 class="h4">Pages</h1>
 
         <div id="search_app">
@@ -40,45 +40,7 @@
                     </ais-search-box>
                  </div>
              </div>
-             <div class="row">
-                 <div class="col-md-4">
-                     <h5 class="text-muted">Refine by</h5>
-                     <ais-refinement-list attribute-name="category" :class-names="{
-                         'ais-refinement-list__count': 'badge badge-light',
-                         'ais-refinement-list__item': 'checkbox'
-                         }"
-                        :sort-by="['count:desc', 'name:asc']"
-                     >
-                         <h6 slot="header"><b>Category</b></h6>
-                     </ais-refinement-list>
-
-                     <ais-refinement-list attribute-name="source" :class-names="{
-                         'ais-refinement-list__count': 'badge badge-light',
-                         'ais-refinement-list__item': 'checkbox'
-                         }"
-                        :sort-by="['count:desc', 'name:asc']"
-                     >
-                         <h6 slot="header"><b>Source</b></h6>
-                     </ais-refinement-list>
-
-                     <ais-refinement-list attribute-name="os" :class-names="{
-                         'ais-refinement-list__count': 'badge badge-light',
-                         'ais-refinement-list__item': 'checkbox'
-                         }"
-                        :sort-by="['count:desc', 'name:asc']"
-                     >
-                         <h6 slot="header"><b>OS</b></h6>
-                     </ais-refinement-list>
-
-                     <ais-refinement-list attribute-name="section" :class-names="{
-                         'ais-refinement-list__count': 'badge badge-light',
-                         'ais-refinement-list__item': 'checkbox'
-                         }"
-                        :sort-by="['count:desc', 'name:asc']"
-                     >
-                         <h6 slot="header"><b>Section</b></h6>
-                     </ais-refinement-list>
-                 </div>
+             <div class="main row">
                  <div class="col-md-8">
                     <div class="row py-2">
                         <div class="col">
@@ -90,26 +52,64 @@
                     </div>
                     <ais-results>
                         <template slot-scope="{ result }">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h3>
-                                        <a :href="'{{ URL::to('/pages') }}' + '/' + result.section + '/' + result.name">
-                                            <ais-highlight :result="result" attribute-name="name"></ais-highlight>
-                                        </a>
-                                    </h3>
-                                    <p>
+                            <div class="search-result mb-4">
+                                <h3>
+                                    <a :href="'{{ URL::to('/pages') }}' + '/' + result.section + '/' + result.name">
+                                        <ais-highlight :result="result" attribute-name="name"></ais-highlight>
+                                    </a>
+                                </h3>
+                                <p>
                                     <ais-highlight :result="result" attribute-name="short_description"></ais-highlight>
-                                    </p>
-                                    <p class="text-muted">
-                                    <ais-highlight :result="result" attribute-name="description"></ais-highlight>
-                                    </p>
-                                </div>
+                                </p>
+                                <p class="text-muted">
+                                    <ais-snippet :result="result" attribute-name="description"></ais-snippet>
+                                </p>
                             </div>
                         </template>
                     </ais-results>
                     <ais-no-results>
                     </ais-no-results>
                  </div>
+                 <aside class="search-aside col-md-4">
+                     <h5 class="text-muted">Refine by</h5>
+                     <div class="row">
+                         <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="category" :class-names="{
+                             'ais-refinement-list__count': 'badge badge-light',
+                             'ais-refinement-list__item': 'checkbox'
+                             }"
+                            :sort-by="['count:desc', 'name:asc']"
+                         >
+                             <h6 class="refinement-header" slot="header">Category</h6>
+                         </ais-refinement-list>
+
+                         <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="source" :class-names="{
+                             'ais-refinement-list__count': 'badge badge-light',
+                             'ais-refinement-list__item': 'checkbox'
+                             }"
+                            :sort-by="['count:desc', 'name:asc']"
+                         >
+                             <h6 class="refinement-header" slot="header">Source</h6>
+                         </ais-refinement-list>
+
+                         <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="os" :class-names="{
+                             'ais-refinement-list__count': 'badge badge-light',
+                             'ais-refinement-list__item': 'checkbox'
+                             }"
+                            :sort-by="['count:desc', 'name:asc']"
+                         >
+                             <h6 class="refinement-header" slot="header">OS</h6>
+                         </ais-refinement-list>
+
+                         <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="section" :class-names="{
+                             'ais-refinement-list__count': 'badge badge-light',
+                             'ais-refinement-list__item': 'checkbox'
+                             }"
+                            :sort-by="['count:desc', 'name:asc']"
+                         >
+                             <h6 class="refinement-header" slot="header">Section</h6>
+                         </ais-refinement-list>
+                     </div>
+                 </aside>
              </div>
             </ais-index>
         </div>

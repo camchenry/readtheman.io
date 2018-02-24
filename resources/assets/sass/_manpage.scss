@@ -55,7 +55,7 @@
     outline: none;
 }
 @include media-breakpoint-down(lg) {
-    .main.row aside {
+    .main.row .man-page-aside {
         order: -1;
         margin-bottom: 2rem;
     }
