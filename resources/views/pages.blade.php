@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="my-4 container">
-        <h1>Pages</h1>
+        <h1 class="h4">Pages</h1>
 
         <div id="search_app">
             <ais-index

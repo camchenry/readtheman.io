@@ -30,7 +30,7 @@
             </div>
         </div>
         <header>
-            <h1 class="page-name py-2 display-4">{{ $page->name }}</h1>
+            <h1 class="page-name py-2">{{ $page->name }}</h1>
         </header>
         <hr>
         <div class="main row">

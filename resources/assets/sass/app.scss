@@ -9,6 +9,11 @@
  *
  */
 
+.page-name {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
 .man-page {
     pre {
         background: #eee;
@@ -48,9 +53,6 @@
 }
 
 #table_of_contents {
-    h5 {
-        font-weight: bold;
-    }
 }
 #view_in_terminal {
     background: #fff;
@@ -98,3 +100,5 @@
 [v-cloak] {
     display: none;
 }
+
+@import "navbar";
