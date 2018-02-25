@@ -18,7 +18,7 @@
         <script async defer src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
     </head>
     <body class="full-page">
-        <nav class="navbar-main navbar navbar-expand-md navbar-light bg-light">
+        <nav class="navbar-main navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ URL::to('/') }}">ReadTheMan</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,11 +46,15 @@
                 </div>
             </div>
         </nav>
-        <div class="full-page-content">
+        <div class="full-page-content mb-3">
             @yield('content')
         </div>
 
-        <footer class="footer mt-3">
+        <div class="colophon">
+            @yield('colophon')
+        </div>
+
+        <footer class="footer">
             <div class="container py-3">
                 <p class="d-inline text-muted m-0">Made by <a href="https://camchenry.com">Cameron McHenry</a></p>
                 &bull;

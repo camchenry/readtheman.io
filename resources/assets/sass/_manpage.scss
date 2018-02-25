@@ -47,16 +47,36 @@
     }
 }
 
-#table_of_contents {
+.man-page-header {
+    .container {
+        border-bottom: 2px solid theme-color(primary);
+    }
+
+    .breadcrumb {
+        background: none;
+        padding: 0;
+    }
 }
+
 #view_in_terminal {
     font-family: monospace;
     background: #fff;
     outline: none;
 }
+
 @include media-breakpoint-down(lg) {
     .main.row .man-page-aside {
         order: -1;
-        margin-bottom: 2rem;
+    }
+}
+
+.actions {
+    align-items: center;
+    justify-content: start;
+}
+
+@include media-breakpoint-down(sm) {
+    .actions {
+        justify-content: start;
     }
 }
