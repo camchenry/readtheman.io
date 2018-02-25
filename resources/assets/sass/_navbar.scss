@@ -1,5 +1,16 @@
+.nav-item {
+    .nav-link {
+        margin-bottom: calc(-0.5rem - 0.05rem);
+        padding-bottom: calc(0.5rem + 4px);
+    }
+}
 .nav-item.active {
     .nav-link {
         border-bottom: 3px solid theme-color(primary);
+    }
+}
+.nav-item:not(.active) {
+    .nav-link {
+        border-bottom: 3px solid transparent;
     }
 }

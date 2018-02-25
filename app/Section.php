@@ -12,4 +12,9 @@ class Section extends Model
     {
         return 'section';
     }
+
+    public function getUrl()
+    {
+        return \URL::to("/section/{$this->section}");
+    }
 }

@@ -13,7 +13,8 @@ declare(strict_types=1);
 */
 
 Route::get('/', function () {
-    return view('home');
+    $sections = \App\Section::get();
+    return view('home', compact('sections'));
 });
 Route::get('/pages', function () {
     return view('pages');
