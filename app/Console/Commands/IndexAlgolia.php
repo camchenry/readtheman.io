@@ -45,6 +45,12 @@ class IndexAlgolia extends Command
         $index = $client->initIndex($this->indexName);
 
         $index->setSettings([
+            'searchableAttributes' => [
+                'name',
+                'short_description',
+                'description',
+                'source',
+            ],
             'attributesForFaceting' => [
                 'section',
                 'category',
@@ -66,6 +72,11 @@ class IndexAlgolia extends Command
         $records = [];
         foreach($pages as $page) {
             $text = $page->description;
+            $section = \App\Section::where('section', '=', $page->section)->first();
+
+            if (!$section) {
+                exit("No section '{$section}' found for page '{$page->name}'");
+            }
 
             // @Incomplete @TODO: Combine See Also + Name + Description
             // Get first N words, because most of the important
@@ -77,14 +88,15 @@ class IndexAlgolia extends Command
             $excerpt = str_replace("SYNOPSIS\n", '', $excerpt);
 
             $record = [
-                'objectID'          => $page->id,
-                'name'              => trim($page->name),
-                'section'           => (int)$page->section,
-                'category'          => trim($page->category),
-                'updated'           => $page->page_updated_at->timestamp,
-                'description'       => $excerpt,
-                'short_description' => trim($page->short_description),
-                'source'            => trim($page->source),
+                'objectID'            => $page->id,
+                'name'                => trim($page->name),
+                'section'             => $section->section,
+                'section_description' => $section->description,
+                'category'            => trim($page->category),
+                'updated'             => $page->page_updated_at->timestamp,
+                'description'         => $excerpt,
+                'short_description'   => trim($page->short_description),
+                'source'              => trim($page->source),
             ];
 
             if ($page->os !== null) {
