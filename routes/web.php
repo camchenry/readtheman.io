@@ -28,3 +28,23 @@ Route::get('/pages/{section}/{page}', function (string $section, string $page) {
         return view('page', compact('page'));
     }
 });
+Route::get('/section/{section}', function (string $section) {
+    $pages = \App\Page::where('section', '=', $section)
+        ->orderBy('name', 'asc')
+        ->get();
+
+    if (!$pages) {
+        abort(404);
+    }
+
+    $section = \App\Section::where('section', '=', $section)->first();
+
+    $pages = $pages->groupBy(function ($page, $key) {
+        return strtoupper(substr($page->name, 0, 1));
+    })
+    ->sortBy(function($page, $key) {
+        return $key;
+    });
+
+    return view('section_list', compact('section', 'pages'));
+});

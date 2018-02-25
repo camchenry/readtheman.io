@@ -28,4 +28,9 @@ class Page extends Model
     {
         return 'name';
     }
+
+    public function getUrl()
+    {
+        return \URL::to("/pages/{$this->section}/{$this->name}");
+    }
 }

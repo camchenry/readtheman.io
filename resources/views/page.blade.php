@@ -21,7 +21,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ URL::to('/') }}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{ URL::to('/pages') }}">Pages</a></li>
-                    <li class="breadcrumb-item">Section {{ $page->section }}</li>
+                    <li class="breadcrumb-item"><a href="{{ URL::to("/section/{$page->section}") }}">Section {{ $page->section }}</a></li>
                     <li class="breadcrumb-item">{{ $page->category }}</li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $page->name }}</li>
                 </ol>
