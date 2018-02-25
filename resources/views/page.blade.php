@@ -69,7 +69,7 @@
                     <dl>
                         <dt>Source</dt>
                         <dd>{{ $page->source }}</dd>
-                        <dt>OS</dt>
+                        <dt>OS/version</dt>
                         <dd>{{ $page->os }}</dd>
                         <dt>Source updated</dt>
                         <dd>{{ $page->page_updated_at->format('F j, Y') }}</dd>

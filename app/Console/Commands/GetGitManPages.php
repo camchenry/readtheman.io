@@ -51,8 +51,6 @@ class GetGitManPages extends Command
         $process = new Process("sudo apt-get -y install {$packages}");
         $process->run();
 
-
-
         $directory = storage_path() . '/man_pages/git';
         $github_url = 'https://github.com/git/git';
         if (!file_exists($directory)) {
@@ -70,25 +68,13 @@ class GetGitManPages extends Command
             }
         }
 
-        exit('INCOMPLETE');
-
-        $commands = [];
-
-        array_push($commands,
+        $commands = [
             [
                 'message' => "Building documentation.\n",
-                'command' => "cd {$directory} && make prefix={$directory} -C Documentation man",
+                'command' => "cd {$directory} && make doc",
                 'timeout' => 900,
-            ]
-            /* [ */
-            /*     'message' => "Creating man directory structure.\n", */
-            /*     'command' => "mkdir -p {$directory}/man/man{$section}", */
-            /* ], */
-            /* [ */
-            /*     'message' => "Moving man pages into directories.\n", */
-            /*     'command' => "mv {$directory}/man/*.{$section} {$directory}/man/man{$section}", */
-            /* ] */
-        );
+            ],
+        ];
 
         foreach($commands as $command) {
             if (isset($command['message'])) {
@@ -104,24 +90,46 @@ class GetGitManPages extends Command
             echo $process->getOutput();
         }
 
-        exit();
-
         $finder = new Finder();
-        $finder->files()->in($directory . '/man')->name("/(.*)\.(\d)/");
+        $finder->depth('== 0');
+        $finder->files()->in($directory . '/Documentation')->name("/(.*)\.(\d)$/");
 
         echo "Searching for files in {$directory}/man\n";
         foreach($finder as $file) {
             $filename = $file->getFilename();
             preg_match('/(.*)\.(\d)/', $filename, $matches);
-            $command_name = trim($matches[1]);
+            $page_name = trim($matches[1]);
             $section = (int) $matches[2];
+
+            $commands = [
+                [
+                    'command' => "mkdir -p {$directory}/Documentation/man/man{$section}",
+                ],
+                [
+                    'command' => "cp {$directory}/Documentation/$filename {$directory}/Documentation/man/man{$section}",
+                ]
+            ];
+
+            foreach($commands as $command) {
+                if (isset($command['message'])) {
+                    echo $command['message'];
+                }
+                $process = new Process($command['command']);
+                $process->setTimeout($command['timeout'] ?? 60);
+                $process->run();
+                if (!$process->isSuccessful())
+                {
+                    exit($process->getErrorOutput());
+                }
+                echo $process->getOutput();
+            }
 
             // Generate HTML
             $process = new Process([
                 'mman',
                 '-T', 'html',
-                '-M', $directory . '/man',
-                $command_name
+                '-M', $directory . '/Documentation/man',
+                $page_name
             ]);
             $process->run();
 
@@ -204,7 +212,7 @@ class GetGitManPages extends Command
                     continue;
                 }
 
-                if ($text === $command_name) {
+                if ($text === $page_name) {
                     continue;
                 }
 
@@ -260,18 +268,25 @@ class GetGitManPages extends Command
             $updated_at_date = new \DateTime('now', $time_zone);
 
             $os = $dom->find('.foot-os')->text;
+            if ($os) {
+                preg_match('/^(Git \d+\.\d+\.\d+).*$/', $os, $matches);
+                $os = $matches[1];
+                if (empty($os)) {
+                    exit("{$page_name}: OS was empty");
+                }
+            }
 
-            echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $command_name);
+            echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $page_name);
 
             $page = \App\Page::firstOrCreate(
                 [
-                    'name' => trim($command_name),
-                    'source' => 'Coreutils',
+                    'name' => trim($page_name),
+                    'source' => 'Git',
                     'section' => $section,
                 ],
                 [
-                    'name' => trim($command_name),
-                    'source' => 'Coreutils',
+                    'name' => trim($page_name),
+                    'source' => 'Git',
                     'section' => $section,
                 ]
             );
