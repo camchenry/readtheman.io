@@ -263,7 +263,6 @@ class GetLinuxKernelManPages extends Command
                     $page->os = ImportHelper::trimAndClean($os);
                 }
                 $page->save();
-                print_r($page);
             }
         }
 
