@@ -83,22 +83,6 @@ class GetLinuxKernelManPages extends Command
             }
         }
 
-        $process = new Process(array(
-            'sudo',
-            'chown',
-            '-R',
-            'www-data:www-data',
-            storage_path() . '/linux-man-pages',
-        ));
-        $process->run();
-
-        if (!$process->isSuccessful())
-        {
-            exit($process->getErrorOutput());
-        }
-
-        echo $process->getOutput();
-
         for($section = 1; $section <= 8; $section++)
         {
             $section_dir = $directory . "/man$section";
@@ -116,6 +100,7 @@ class GetLinuxKernelManPages extends Command
                     'mman',
                     '-T', 'html',
                     '-M', $directory,
+                    $section,
                     $command_name
                 ));
                 $process->run();
@@ -278,6 +263,7 @@ class GetLinuxKernelManPages extends Command
                     $page->os = ImportHelper::trimAndClean($os);
                 }
                 $page->save();
+                print_r($page);
             }
         }
 
