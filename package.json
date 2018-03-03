@@ -19,6 +19,8 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "algoliasearch": "^3.24.12",
+        "autocomplete.js": "^0.29.0",
         "bootstrap": "^4.0.0",
         "clipboard": "^1.7.1",
         "normalize.css": "^7.0.0",

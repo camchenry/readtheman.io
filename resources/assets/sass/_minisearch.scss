@@ -1,0 +1,31 @@
+.algolia-autocomplete {
+    width: 100%;
+}
+.algolia-autocomplete .aa-input,
+.algolia-autocomplete .aa-hint {
+    width: 100%;
+}
+.algolia-autocomplete .aa-hint {
+    color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+    width: 100%;
+    margin-top: 0.25rem;
+    background-color: #fff;
+    border: $border-width solid $border-color;
+    border-top: none;
+
+    border-radius: $border-radius-sm;
+    box-shadow: $dropdown-box-shadow;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 0.3rem 0.4rem;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #B2D7FF;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+}

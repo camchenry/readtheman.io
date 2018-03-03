@@ -1,6 +1,7 @@
 {
     "/js/search.js": "/js/search.js",
     "/css/app.css": "/css/app.css",
+    "/js/minisearch.js": "/js/minisearch.js",
     "/js/bootstrap.bundle.min.js": "/js/bootstrap.bundle.min.js",
     "/js/clipboard.min.js": "/js/clipboard.min.js"
 }

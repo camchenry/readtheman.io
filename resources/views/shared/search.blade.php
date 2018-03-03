@@ -1,5 +1,5 @@
 @push('scripts')
-    <script async defer src="{{ url('js/search.js') }}"></script>
+    <script defer src="{{ url('js/search.js') }}"></script>
 @endpush
 
 <div id="search_app">
