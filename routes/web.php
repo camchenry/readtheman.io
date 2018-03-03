@@ -41,7 +41,7 @@ Route::get('/section/{section}', function (string $section) {
         abort(404);
     }
 
-    $pages = \App\Page::where('section', '=', $section)
+    $pages = \App\Page::where('section', '=', $section->section)
         ->orderBy('name', 'asc')
         ->get();
 
