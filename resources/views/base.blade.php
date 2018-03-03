@@ -8,7 +8,7 @@
         <meta name="keywords" content="@yield('meta.keywords', 'linux,help,man,page,man page,online,kernel,c,unix')"/>
         <meta name="description" content="@yield('meta.description', 'Online Linux Man Pages')"/>
 
-        <title>@yield('title') | Man Pages</title>
+        <title>@yield('title') | ReadTheMan</title>
 
         <!-- Fonts -->
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
