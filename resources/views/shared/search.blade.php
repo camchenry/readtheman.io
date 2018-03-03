@@ -1,6 +1,6 @@
-@section('scripts')
+@push('scripts')
     <script async defer src="{{ url('js/search.js') }}"></script>
-@endsection
+@endpush
 
 <div id="search_app">
     <ais-index

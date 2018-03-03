@@ -14,7 +14,7 @@
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
         @yield('stylesheets')
 
-        @yield('scripts')
+        @stack('scripts')
         <script async defer src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
     </head>
     <body class="full-page">
