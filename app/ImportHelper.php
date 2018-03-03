@@ -116,7 +116,7 @@ class ImportHelper
 
         if (!$process->isSuccessful())
         {
-            throw new Exception($process->getErrorOutput());
+            throw new \Exception($process->getErrorOutput());
         }
 
         $html = $process->getOutput();
