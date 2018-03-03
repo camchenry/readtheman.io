@@ -35,6 +35,12 @@ Route::get('/pages/{section}/{page}', function (string $section, string $page) {
     }
 });
 Route::get('/section/{section}', function (string $section) {
+    $section = \App\Section::where('section', '=', $section)->first();
+
+    if (!$section) {
+        abort(404);
+    }
+
     $pages = \App\Page::where('section', '=', $section)
         ->orderBy('name', 'asc')
         ->get();
@@ -42,8 +48,6 @@ Route::get('/section/{section}', function (string $section) {
     if (!$pages) {
         abort(404);
     }
-
-    $section = \App\Section::where('section', '=', $section)->first();
 
     $pages = $pages->groupBy(function ($page, $key) {
         return strtoupper(substr($page->name, 0, 1));
