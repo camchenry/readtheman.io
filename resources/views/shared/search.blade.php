@@ -69,37 +69,37 @@
                  'ais-refinement-list__count': 'badge badge-light',
                  'ais-refinement-list__item': 'checkbox'
                  }"
-                                                                           :sort-by="['count:desc', 'name:asc']"
-                                                                           >
-                                                                           <h6 class="refinement-header" slot="header">Category</h6>
-                                                                           </ais-refinement-list>
+               :sort-by="['count:desc', 'name:asc']"
+               >
+               <h6 class="refinement-header" slot="header">Category</h6>
+               </ais-refinement-list>
 
-                                                                           <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="source" :class-names="{
-                                                                           'ais-refinement-list__count': 'badge badge-light',
-                                                                           'ais-refinement-list__item': 'checkbox'
-                                                                           }"
-                                                                                                                                     :sort-by="['count:desc', 'name:asc']"
-                                                                                                                                     >
-                                                                                                                                     <h6 class="refinement-header" slot="header">Source</h6>
-                                                                                                                                     </ais-refinement-list>
+               <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="source" :class-names="{
+               'ais-refinement-list__count': 'badge badge-light',
+               'ais-refinement-list__item': 'checkbox'
+               }"
+             :sort-by="['count:desc', 'name:asc']"
+             >
+             <h6 class="refinement-header" slot="header">Source</h6>
+             </ais-refinement-list>
 
-                                                                                                                                     <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="os" :class-names="{
-                                                                                                                                     'ais-refinement-list__count': 'badge badge-light',
-                                                                                                                                     'ais-refinement-list__item': 'checkbox'
-                                                                                                                                     }"
-                                                                                                                                                                                               :sort-by="['count:desc', 'name:asc']"
-                                                                                                                                                                                               >
-                                                                                                                                                                                               <h6 class="refinement-header" slot="header">OS</h6>
-                                                                                                                                                                                               </ais-refinement-list>
+             <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="os" :class-names="{
+             'ais-refinement-list__count': 'badge badge-light',
+             'ais-refinement-list__item': 'checkbox'
+             }"
+               :sort-by="['count:desc', 'name:asc']"
+               >
+               <h6 class="refinement-header" slot="header">OS</h6>
+               </ais-refinement-list>
 
-                                                                                                                                                                                               <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="section" :class-names="{
-                                                                                                                                                                                               'ais-refinement-list__count': 'badge badge-light',
-                                                                                                                                                                                               'ais-refinement-list__item': 'checkbox'
-                                                                                                                                                                                               }"
-                                                                                                                                                                                                                                                         :sort-by="['count:desc', 'name:asc']"
-                                                                                                                                                                                                                                                         >
-                                                                                                                                                                                                                                                         <h6 class="refinement-header" slot="header">Section</h6>
-                                                                                                                                                                                                                                                         </ais-refinement-list>
+                <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="section" :class-names="{
+                    'ais-refinement-list__count': 'badge badge-light',
+                    'ais-refinement-list__item': 'checkbox'
+                    }"
+                    :sort-by="['count:desc', 'name:asc']"
+                >
+                    <h6 class="refinement-header" slot="header">Section</h6>
+                </ais-refinement-list>
              </div>
          </aside>
      </div>
