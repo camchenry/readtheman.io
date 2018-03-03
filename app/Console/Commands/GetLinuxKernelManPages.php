@@ -24,33 +24,6 @@ class GetLinuxKernelManPages extends Command
      */
     protected $description = 'Get linux kernel man pages';
 
-    /*
-     * Map lowercased category names to the real category name
-     *
-     * @var array[string] = string
-     */
-    public $category_synonyms = [
-        "linux user's manual"        => "Linux User's Manual",
-        "linux user manual"          => "Linux User's Manual",
-
-        "linux programmer's manual"  => "Linux Programmer's Manual",
-        "linux programmer'smanual"   => "Linux Programmer's Manual",
-        "linuxprogrammer's manual"   => "Linux Programmer's Manual",
-
-        "library functions manual"   => "Library Functions Manual",
-
-        "user commands"              => "User Commands",
-
-        "linux system calls"         => "Linux System Calls",
-        "system calls manual"        => "Linux System Calls",
-
-        "linux key management calls" => "Linux Key Management Calls",
-
-        "linux system administration" => "Linux System Administration",
-
-        "miscellaneous information manual" => "Miscellaneous Information Manual",
-    ];
-
     /**
      * Create a new command instance.
      *

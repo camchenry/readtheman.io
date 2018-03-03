@@ -21,6 +21,9 @@ class SectionsTableSeeder extends Seeder
             ['section' => '6', 'description' => 'Games'],
             ['section' => '7', 'description' => 'Miscellaneous'],
             ['section' => '8', 'description' => 'System administration'],
+            ['section' => '0p', 'description' => 'POSIX header files'],
+            ['section' => '1p', 'description' => 'POSIX user commands'],
+            ['section' => '3p', 'description' => 'POSIX library functions'],
         ];
 
         foreach($sections as $record) {
