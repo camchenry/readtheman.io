@@ -21,12 +21,15 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ URL::to('/') }}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{ URL::to('/pages') }}">Pages</a></li>
-                    <li class="breadcrumb-item"><a href="{{ URL::to("/section/{$page->section}") }}">Section {{ $page->section }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ URL::to("/section/{$page->section}") }}">{{ $page->getSection()->description }} ({{ $page->getSection()->section }})</a></li>
                     <li class="breadcrumb-item">{{ $page->category }}</li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $page->name }}</li>
                 </ol>
             </nav>
-            <h1 class="page-name">{{ trim($page->name) }}</h1>
+            <h1 class="page-name">
+                {{ trim($page->name) }}
+                <small class="text-muted">({{ $page->getSection()->section }})</small>
+            </h1>
         </div>
     </header>
     <div class="container">
