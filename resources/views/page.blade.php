@@ -4,15 +4,29 @@
 
 @section('meta.description', $page->short_description)
 
-@section('scripts')
-    <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" async></script>
-    <script async defer>
-    document.addEventListener('DOMContentLoaded', function(){
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <script>
+    window.addEventListener('load', function(){
         var clipboard = new Clipboard('.copy');
-        console.log(clipboard);
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO Prevent dropdown menu going away
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
+        // @TODO
     })
     </script>
-@endsection
+@endpush
 
 @section('content')
     <header class="man-page-header bg-light">
@@ -41,17 +55,27 @@
             </div>
             <aside class="man-page-aside col-lg-4">
                 <div class="actions mb-3 d-flex">
-                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">View in terminal</button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="px-3 py-2">
-                            <!-- Copy command -->
-                            <p>Paste this in your terminal:</p>
-                            <div class="input-group">
-                                <input id="view_in_terminal" class="form-control" type="text" readonly value="man {{ $page->section }} {{ trim($page->name) }}">
-                                <div class="input-group-append">
-                                    <button class="copy btn btn-light" type="button" data-clipboard-target="#view_in_terminal" title="Copy to clipboard">
-                                        <svg aria-hidden="true" class="octicon octicon-clippy" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg>
-                                    </button>
+                    <div class="btn-group" role="group" aria-label="Actions">
+                        <a class="btn btn-sm btn-light" rel="noopener" target="_blank" href="https://google.com/search?q={{ rawurlencode(trim($page->name)) }}" title="Search on Google">
+                            <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+                            Google
+                        </a>
+                        <a class="btn btn-sm btn-light" rel="noopener" target="_blank" href="https://stackoverflow.com/search?q={{ rawurlencode(trim($page->name)) }}" title="Search on StackOverflow">
+                            <svg class="octicon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+                            StackOverflow
+                        </a>
+                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">View in terminal</button>
+                        <div id="view_in_terminal_menu" class="dropdown-menu dropdown-menu-right">
+                            <div class="px-3 py-2">
+                                <!-- Copy command -->
+                                <p>Paste this in your terminal:</p>
+                                <div class="input-group">
+                                    <input id="view_in_terminal" class="form-control" type="text" readonly value="man {{ $page->section }} {{ trim($page->name) }}">
+                                    <div class="input-group-append">
+                                        <button class="copy btn btn-light" type="button" data-clipboard-target="#view_in_terminal" title="Copy to clipboard">
+                                            <svg aria-hidden="true" class="octicon" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

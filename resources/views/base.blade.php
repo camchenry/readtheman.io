@@ -14,8 +14,8 @@
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
         @yield('stylesheets')
 
+        <script defer src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
         @stack('scripts')
-        <script async defer src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
     </head>
     <body class="full-page">
         <nav class="navbar-main navbar navbar-expand-md navbar-dark bg-dark">

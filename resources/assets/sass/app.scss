@@ -28,6 +28,12 @@
     background: linear-gradient(-180deg, #fafbfc 0%, #eff3f6 90%);
 }
 
+.octicon {
+    display: inline-block;
+    vertical-align: sub;
+    fill: currentColor;
+}
+
 @import "search";
 @import "navbar";
 @import "manpage";
