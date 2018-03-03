@@ -33,4 +33,9 @@ class Page extends Model
     {
         return \URL::to("/pages/{$this->section}/{$this->name}");
     }
+
+    public function getSection()
+    {
+        return Section::where('section', '=', $this->section)->first();
+    }
 }

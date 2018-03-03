@@ -37,7 +37,7 @@
                 </article>
             </div>
             <aside class="man-page-aside col-lg-4">
-                <div class="actions mb-2 d-flex">
+                <div class="actions mb-3 d-flex">
                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">View in terminal</button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="px-3 py-2">
@@ -55,6 +55,16 @@
                     </div>
                 </div>
                 {!! $page->table_of_contents_html !!}
+                @if(count($other_sections_pages) > 0)
+                    <div>
+                        <h5>Other sections</h5>
+                        <ul>
+                            @foreach($other_sections_pages as $other_page)
+                                <li><a href="{{ $other_page->getUrl() }}">{{ $other_page->name }} ({{ $other_page->section }}) - {{ $other_page->getSection()->description }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </aside>
         </div>
     </div>

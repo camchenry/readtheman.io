@@ -26,7 +26,12 @@ Route::get('/pages/{section}/{page}', function (string $section, string $page) {
         abort(404);
     }
     else {
-        return view('page', compact('page'));
+        $other_sections_pages = \App\Page::where('name', '=', $page->name)
+            ->where('id', '!=', $page->id)
+            ->orderBy('section', 'ASC')
+            ->get();
+
+        return view('page', compact('page', 'other_sections_pages'));
     }
 });
 Route::get('/section/{section}', function (string $section) {
