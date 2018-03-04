@@ -42,10 +42,20 @@ class ImportHelper
             'section'                => 'string',
             'category'               => 'string',
             'html'                   => 'string',
-            'short_description'      => 'string',
-            'description'            => 'string',
             'table_of_contents_html' => 'string',
-            'os'                     => 'string',
+        ];
+
+        // Not required, but still validated
+        $validated_fields = [
+            'short_description' => 'string',
+            'description'       => 'string',
+            'os'                => 'string',
+        ];
+
+        $nullable_fields = [
+            'short_description' => true,
+            'description'       => true,
+            'os'                => true,
         ];
 
         foreach($required_fields as $field => $type) {
@@ -63,14 +73,33 @@ class ImportHelper
             }
         }
 
+        foreach($validated_fields as $field => $type) {
+            if (isset($data[$field])) {
+                if (empty($data[$field]) && !$nullable_fields[$field]) {
+                    throw new \Exception("Page field is empty: '{$field}'");
+                }
+
+                if (gettype($data[$field]) !== $type) {
+                    $found_type = gettype($data[$field]);
+                    throw new \Exception("Page field expected to be '{$type}' but got: '{$found_type}'");
+                }
+            }
+        }
+
         $name                   = self::trimAndClean($data['name']);
         $section                = self::trimAndClean($data['section']);
         $category               = self::trimAndClean($data['category']);
         $html                   = self::trimAndClean($data['html']);
         $table_of_contents_html = self::trimAndClean($data['table_of_contents_html']);
-        $short_description      = self::trimAndClean($data['short_description']);
-        $description            = self::trimAndClean($data['description']);
-        $os                     = self::trimAndClean($data['os']);
+        if (isset($data['short_description'])) {
+            $short_description = self::trimAndClean($data['short_description']);
+        }
+        if (isset($data['description'])) {
+            $description = self::trimAndClean($data['description']);
+        }
+        if (isset($data['os'])) {
+            $os = self::trimAndClean($data['os']);
+        }
         $source                 = self::trimAndClean($data['source']);
         $page_updated_date      = $data['page_updated_date'];
 
@@ -92,10 +121,14 @@ class ImportHelper
         );
         $page->category               = $category;
         $page->raw_html               = $html;
-        $page->short_description      = $short_description;
-        $page->description            = $description;
         $page->page_updated_at        = $page_updated_date;
         $page->table_of_contents_html = $table_of_contents_html;
+        if (!empty($description)) {
+            $page->description = $description;
+        }
+        if (!empty($short_description)) {
+            $page->short_description = $short_description;
+        }
         if (!empty($os)) {
             $page->os = $os;
         }
@@ -272,29 +305,6 @@ class ImportHelper
             }
         }
 
-        $italicized = $doc->getElementsByTagName('i');
-        for($i = 0; $i < $italicized->length; $i++) {
-            $italic = $italicized->item($i);
-            $text = trim($italic->textContent);
-
-            if (empty($text)) {
-                continue;
-            }
-
-            if ($text === $self_page_name) {
-                continue;
-            }
-
-            if (Page::where('name', '=', $text)->exists()) {
-                $page = Page::where('name', '=', $text)->first();
-                $link = $doc->createElement('a');
-                $link->textContent = $text;
-                $link->setAttribute('href', \URL::to('/pages/' . $page->section . '/' . $text));
-                $italic->textContent = '';
-                $italic->appendChild($link);
-            }
-        }
-
         return $doc;
     }
 
@@ -312,8 +322,13 @@ class ImportHelper
         $data['category'] = $category;
 
         $short_description = $dom->getElementById('#NAME')->text(true);
-        $short_description = preg_replace('/NAME/', '', $short_description);
-        $data['short_description'] = $short_description;
+        if ($short_description) {
+            $short_description = trim(preg_replace('/NAME/', '', $short_description));
+            $short_description = trim(preg_replace('/&mdash;/', '-', $short_description));
+            preg_match('/^(.*)\s+\-\s+(.*)$/', $short_description, $matches);
+            $data['related_pages'] = trim($matches[1]);
+            $data['short_description'] = ucfirst(trim($matches[2]));
+        }
 
         $description_section = $dom->getElementById('#DESCRIPTION');
         if ($description_section) {

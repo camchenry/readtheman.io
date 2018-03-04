@@ -6,7 +6,7 @@
     <ais-index
      app-id="{{ env('ALGOLIA_APP_ID') }}"
      api-key="{{ env('ALGOLIA_SEARCH_KEY') }}"
-     index-name="live_man_pages"
+     index-name="{{ env('ALGOLIA_INDEX') }}"
      >
      <div class="row">
          <div class="col">

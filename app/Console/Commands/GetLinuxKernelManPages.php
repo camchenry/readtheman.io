@@ -64,82 +64,15 @@ class GetLinuxKernelManPages extends Command
             $oses = [];
             foreach($files as $file_name)
             {
-                preg_match('/(.*)\.(\d)/', $file_name, $matches);
-                $command_name = trim($matches[1]);
-                $section = (int) $matches[2];
+                preg_match('/(.*)\.(\d\w?)/', $file_name, $matches);
+                $page_name = trim($matches[1]);
+                $section = trim($matches[2]);
 
-                // Generate HTML
-                $process = new Process(array(
-                    'mman',
-                    '-T', 'html',
-                    '-M', $directory,
-                    $section,
-                    $command_name
-                ));
-                $process->run();
+                echo sprintf("Section %s, %s\n", $section, $page_name);
 
-                if (!$process->isSuccessful())
-                {
-                    echo $process->getErrorOutput();
-                    exit();
-                }
+                $html = ImportHelper::makeHtmlForManPage($page_name, $section, $directory);
 
-                $html = $process->getOutput();
-
-                $doc = new \DOMDocument;
-                $doc->loadXML($html);
-
-                // Strip out everything but the HTML in the <body> tag
-                // and add sectioning elements
-                $doc_body_only = new \DOMDocument;
-                $body = $doc->getElementsByTagName('body')->item(0);
-                $root_div = null;
-                foreach($body->childNodes as $child) {
-                    if ($child->nodeName === 'div') {
-                        $root_div = $child;
-                        continue;
-                    }
-                    else {
-                        $doc_body_only->appendChild($doc_body_only->importNode($child, true));
-                    }
-                }
-
-                // Add sectioning elements and rearrange section IDs
-                if ($root_div) {
-                    $section_number = 0;
-                    $sections = [];
-                    $in_section = false;
-
-                    foreach($root_div->childNodes as $sub_child) {
-                        if ($sub_child->nodeName === 'h1') {
-                            $in_section = true;
-                            $section_number++;
-                            $sections[$section_number] = [
-                                'children' => [],
-                                'id' => trim($sub_child->getAttribute('id')),
-                            ];
-                            $sub_child->removeAttribute('id');
-                        }
-                        if ($in_section) {
-                            $sections[$section_number]['children'][] = $doc_body_only->importNode($sub_child, true);
-                        }
-                    }
-
-                    $root_div = $doc_body_only->importNode($root_div);
-                    $doc_body_only->appendChild($root_div);
-
-                    foreach($sections as $key => $_section) {
-                        $parent_div = $doc_body_only->createElement('section');
-                        $parent_div->setAttribute('id', $_section['id']);
-                        $root_div->appendChild($parent_div);
-                        foreach($_section['children'] as $child) {
-                            $parent_div->appendChild($child);
-                        }
-                    }
-                }
-
-                $doc = $doc_body_only;
-
+                $doc = ImportHelper::createSectionedDocument($html);
 
                 /*
                  * Table of Contents
@@ -147,29 +80,7 @@ class GetLinuxKernelManPages extends Command
                 $table_of_contents = ImportHelper::makeTableOfContents($doc);
                 $table_of_contents_html = $doc->saveHTML($table_of_contents);
 
-                // Add hyperlinks to other pages
-                $bolded = $doc->getElementsByTagName('b');
-                for($i = 0; $i < $bolded->length; $i++) {
-                    $bold = $bolded->item($i);
-                    $text = trim($bold->textContent);
-
-                    if (empty($text)) {
-                        continue;
-                    }
-
-                    if ($text === $command_name) {
-                        continue;
-                    }
-
-                    if (\App\Page::where('name', '=', $text)->exists()) {
-                        $page = \App\Page::where('name', '=', $text)->first();
-                        $link = $doc->createElement('a');
-                        $link->textContent = $text;
-                        $link->setAttribute('href', \URL::to('/pages/' . $page->section . '/' . $text));
-                        $bold->textContent = '';
-                        $bold->appendChild($link);
-                    }
-                }
+                $doc = ImportHelper::addLinksToManPages($doc, $page_name);
 
                 $body_html = $doc->saveHTML();
 
@@ -179,63 +90,22 @@ class GetLinuxKernelManPages extends Command
                 // Strip out <table class='head'> tag
                 $html = mb_eregi_replace("<\s*table\s*class=\"foot\"\s*[^>]*>(.*?)</\s*table\s*>", '', $html);
 
-                // Scraping to do with pre-processed HTML
-                $dom = new \PHPHtmlParser\Dom();
-                $dom->load($body_html);
+                $info = ImportHelper::extractInfo($body_html);
 
-                // Extract the category name, like "Linux programmer's manual"
-                $category = $dom->find('.head-vol')->text;
-                if (isset($this->category_synonyms[strtolower($category)]))
-                {
-                    $category = $this->category_synonyms[strtolower($category)];
-                }
+                $record = [
+                    'name' => $page_name,
+                    'source' => 'Linux kernel',
+                    'section' => $section,
+                    'category' => $info['category'],
+                    'html' => $html,
+                    'short_description' => $info['short_description'] ?? null,
+                    'description' => $info['description'] ?? null,
+                    'page_updated_date' => $info['page_updated_date'],
+                    'table_of_contents_html' => $table_of_contents_html,
+                    'os' => $info['os'] ?? null,
+                ];
 
-                $short_description = $dom->getElementById('#NAME')->text(true);
-                $short_description = preg_replace('/NAME/', '', $short_description);
-
-                $description_section = $dom->getElementById('#DESCRIPTION');
-                if ($description_section) {
-                    $description = $description_section->text(true);
-                    $description = preg_replace('/DESCRIPTION/', '', $description);
-                }
-
-
-                // Extract the last updated time
-                $updated_at = $dom->find('.foot-date')->text;
-                $time_zone = new \DateTimeZone('UTC');
-                $updated_at_date = \DateTime::createFromFormat('Y-m-d', $updated_at, $time_zone);
-
-                // Prev date format failed, try a different one
-                if (!$updated_at_date) {
-                    $updated_at_date = \DateTime::createFromFormat('F j, Y', $updated_at, $time_zone);
-                }
-
-                $os = $dom->find('.foot-os')->text;
-
-                echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $command_name);
-
-                $page = \App\Page::firstOrCreate(
-                    [
-                        'name' => trim($command_name),
-                        'source' => 'Linux kernel',
-                        'section' => $section,
-                    ],
-                    [
-                        'name' => trim($command_name),
-                        'source' => 'Linux kernel',
-                        'section' => $section,
-                    ]
-                );
-                $page->category = ImportHelper::trimAndClean($category);
-                $page->raw_html = ImportHelper::trimAndClean($html);
-                $page->short_description = ImportHelper::trimAndClean($short_description);
-                $page->description = ImportHelper::trimAndClean($description);
-                $page->page_updated_at = $updated_at_date->format('Y-m-d H:i:s');
-                $page->table_of_contents_html = $table_of_contents_html;
-                if (!empty($os)) {
-                    $page->os = ImportHelper::trimAndClean($os);
-                }
-                $page->save();
+                $page = ImportHelper::createPage($record);
             }
         }
 
