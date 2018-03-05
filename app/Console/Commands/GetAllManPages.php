@@ -11,7 +11,7 @@ class GetAllManPages extends Command
      *
      * @var string
      */
-    protected $signature = 'manpages:all';
+    protected $signature = 'manpages:all {--fast}';
 
     /**
      * The console command description.
@@ -37,16 +37,24 @@ class GetAllManPages extends Command
      */
     public function handle()
     {
-        echo "\n#\n# Linux kernel\n#\n";
-        $this->call('manpages:kernel');
+        $options = [];
 
-        echo "\n#\n# POSIX\n#\n";
-        $this->call('manpages:posix');
+        if ($this->option('fast')) {
+            $options['--fast'] = '1';
+        }
 
-        echo "\n#\n# Git\n#\n";
-        $this->call('manpages:git');
+        \DB::transaction(function() use ($options) {
+            echo "\n#\n# Linux kernel\n#\n";
+            $this->call('manpages:kernel', $options);
 
-        echo "\n#\n# Coreutils\n#\n";
-        $this->call('manpages:coreutils');
+            echo "\n#\n# POSIX\n#\n";
+            $this->call('manpages:posix', $options);
+
+            echo "\n#\n# Git\n#\n";
+            $this->call('manpages:git', $options);
+
+            echo "\n#\n# Coreutils\n#\n";
+            $this->call('manpages:coreutils', $options);
+        });
     }
 }

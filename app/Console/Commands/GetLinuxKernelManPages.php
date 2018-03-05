@@ -45,7 +45,7 @@ class GetLinuxKernelManPages extends Command
         $page_queue = [];
 
         if ($this->option('fast')) {
-            $pages = \App\Page::where('source', '=', 'Coreutils')->get();
+            $pages = \App\Page::where('source', '=', 'Linux kernel')->get();
             foreach($pages as $page) {
                 array_push($page_queue, [
                     'name' => trim($page->name),
@@ -76,7 +76,7 @@ class GetLinuxKernelManPages extends Command
                 ->depth('== 1')
                 ->name("/(.*)\.(\d\w?)$/");
 
-            echo "Searching for man pages in {$directory}\n";
+            $this->info("Searching for man pages in {$directory}");
 
             foreach($finder as $file)
             {
@@ -94,6 +94,8 @@ class GetLinuxKernelManPages extends Command
             }
         }
 
+        $progress_bar = $this->output->createProgressBar(count($page_queue));
+
         foreach($page_queue as $page)
         {
             $page_name = $page['name'];
@@ -101,7 +103,7 @@ class GetLinuxKernelManPages extends Command
             $raw_html = $page['raw_html'];
             $html = $raw_html;
 
-            echo "Section {$section}, {$page_name}\n";
+            $this->output->write("\tSection {$section}, {$page_name}");
 
             $doc = ImportHelper::createSectionedDocument($html);
 
@@ -138,7 +140,10 @@ class GetLinuxKernelManPages extends Command
             ];
 
             $page = ImportHelper::createPage($record);
+
+            $progress_bar->advance();
         }
 
+        $progress_bar->finish();
     }
 }
