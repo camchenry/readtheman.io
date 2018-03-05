@@ -45,6 +45,10 @@
     .Pp {
         margin-top: 2em;
     }
+
+    dd.It-tag {
+        padding-left: 2rem;
+    }
 }
 
 .man-page-header {
@@ -78,5 +82,10 @@
 @include media-breakpoint-down(sm) {
     .actions {
         justify-content: start;
+    }
+    .man-page {
+        dd.It-tag {
+            padding-left: 1rem;
+        }
     }
 }

@@ -21,8 +21,6 @@ class IndexAlgolia extends Command
      */
     protected $description = 'Push man page records to Algolia';
 
-    protected $indexName = 'live_man_pages';
-
     /**
      * Create a new command instance.
      *
@@ -42,7 +40,9 @@ class IndexAlgolia extends Command
     {
         $client = new \AlgoliaSearch\Client(env('ALGOLIA_APP_ID'), env('ALGOLIA_ADMIN_KEY'));
 
-        $index = $client->initIndex($this->indexName);
+        $indexName = env('ALGOLIA_INDEX');
+
+        $index = $client->initIndex($indexName);
 
         $index->setSettings([
             'searchableAttributes' => [

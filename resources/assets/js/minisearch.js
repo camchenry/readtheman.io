@@ -22,7 +22,6 @@ var index = client.initIndex(SEARCH_INDEX);
 const options = {
     hint: true,
     autoselect: true,
-    autoselectOnBlur: true,
     templates: {
         footer: '<div class="pt-1 pb-2 px-2 border-top"><small class="text-muted">Powered by <a href="https://www.algolia.com/"><img style="height: 1rem;" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-logo-light.svg" /> </a></small></div>'
     }
@@ -34,8 +33,9 @@ autocomplete('#mini_search_input', options, [
         templates: {
             suggestion: function(suggestion) {
                 var name = suggestion._highlightResult.name.value;
+                var short_description = suggestion._highlightResult.short_description.value;
                 var section = suggestion.section;
-                return name + '(' + section + ')';
+                return name + '(' + section + ')' + '<div><small class="text-muted truncate">' + short_description + '</small></div>';
             },
             footer: function(suggestion) {
                 return suggestion.short_description;
