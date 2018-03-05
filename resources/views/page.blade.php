@@ -50,7 +50,7 @@
         <div class="main row">
             <div class="col-lg-8">
                 <article class="mb-4 man-page">
-                    {!! $page->raw_html !!}
+                    {!! $page->processed_html !!}
                 </article>
             </div>
             <aside class="man-page-aside col-lg-4">

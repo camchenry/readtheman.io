@@ -101,6 +101,8 @@ class GetGitManPages extends Command
             $page_name = trim($matches[1]);
             $section = trim($matches[2]);
 
+            echo "Section {$section}, {$page_name}\n";
+
             $commands = [
                 [
                     'command' => "mkdir -p {$directory}/Documentation/man/man{$section}",
@@ -125,6 +127,7 @@ class GetGitManPages extends Command
             }
 
             $html = ImportHelper::makeHtmlForManPage($page_name, $section, $directory . '/Documentation/man');
+            $raw_html = $html;
 
             $doc = ImportHelper::createSectionedDocument($html);
 
@@ -134,29 +137,7 @@ class GetGitManPages extends Command
             $table_of_contents = ImportHelper::makeTableOfContents($doc);
             $table_of_contents_html = $doc->saveHTML($table_of_contents);
 
-            // Add hyperlinks to other pages
-            $bolded = $doc->getElementsByTagName('b');
-            for($i = 0; $i < $bolded->length; $i++) {
-                $bold = $bolded->item($i);
-                $text = trim($bold->textContent);
-
-                if (empty($text)) {
-                    continue;
-                }
-
-                if ($text === $page_name) {
-                    continue;
-                }
-
-                if (\App\Page::where('name', '=', $text)->exists()) {
-                    $page = \App\Page::where('name', '=', $text)->first();
-                    $link = $doc->createElement('a');
-                    $link->textContent = $text;
-                    $link->setAttribute('href', \URL::to('/pages/' . $page->section . '/' . $text));
-                    $bold->textContent = '';
-                    $bold->appendChild($link);
-                }
-            }
+            $doc = ImportHelper::addLinksToManPages($doc, $page_name);
 
             $body_html = $doc->saveHTML();
 
@@ -171,80 +152,37 @@ class GetGitManPages extends Command
             $html = mb_eregi_replace("file:///(.*)/git-doc/(.*\.html)", '<a href="https://www.kernel.org/pub/software/scm/git/docs/\\2">https://www.kernel.org/pub/software/scm/git/docs/\\2</a>', $html);
 
             // Scraping to do with pre-processed HTML
-            $dom = new \PHPHtmlParser\Dom();
-            $dom->load($body_html);
+            $info = ImportHelper::extractInfo($body_html);
 
-            $category = $dom->find('.head-vol')->text;
-            if (isset($this->category_synonyms[strtolower($category)]))
-            {
-                $category = $this->category_synonyms[strtolower($category)];
-            }
-
-            $short_description = $dom->getElementById('#NAME')->text(true);
-            $short_description = preg_replace('/NAME/', '', $short_description);
-
-            $description_section = $dom->getElementById('#DESCRIPTION');
-            if ($description_section) {
-                $description = $description_section->text(true);
-                $description = preg_replace('/DESCRIPTION/', '', $description);
-            }
-
-
-            // Extract the last updated time
-            $updated_at = $dom->find('.foot-date')->text;
-            $time_zone = new \DateTimeZone('UTC');
-            $updated_at_date = \DateTime::createFromFormat('Y-m-d', $updated_at, $time_zone);
-
-            // Prev date format failed, try a different one
-            if (!$updated_at_date) {
-                $updated_at_date = \DateTime::createFromFormat('F j, Y', $updated_at, $time_zone);
-            }
-
-            $time_zone = new \DateTimeZone('UTC');
-            $updated_at_date = new \DateTime('now', $time_zone);
-
-            $os = $dom->find('.foot-os')->text;
-            if ($os) {
-                preg_match('/^(Git \d+\.\d+\.\d+).*$/', $os, $matches);
+            if ($info['os']) {
+                preg_match('/^(Git \d+\.\d+\.\d+).*$/', $info['os'], $matches);
                 $os = $matches[1];
                 if (empty($os)) {
-                    exit("{$page_name}: OS was empty");
+                    throw new Exception("{$page_name}: OS was empty");
                 }
             }
 
-            echo sprintf("Section %s, Category '%-30s': %s\n", $section, $category, $page_name);
+            $category = $info['category'];
 
-            $page = \App\Page::firstOrCreate(
-                [
-                    'name' => trim($page_name),
-                    'source' => 'Git',
-                    'section' => $section,
-                ],
-                [
-                    'name' => trim($page_name),
-                    'source' => 'Git',
-                    'section' => $section,
-                ]
-            );
-            $page->category = trim($category);
-            $page->raw_html = trim($html);
-            $page->short_description = $this->trimAndClean($short_description);
-            $page->description = $this->trimAndClean($description);
-            $page->page_updated_at = $updated_at_date->format('Y-m-d H:i:s');
-            $page->table_of_contents_html = $table_of_contents_html;
-            if (!empty($os)) {
-                $page->os = $this->trimAndClean($os);
+            if (empty($info['category'])) {
+                $category = 'Git Manual';
             }
-            $page->save();
+
+            $record = [
+                'name' => $page_name,
+                'source' => 'Git',
+                'section' => $section,
+                'category' => $category,
+                'html' => $html,
+                'raw_html' => $raw_html,
+                'short_description' => $info['short_description'] ?? null,
+                'description' => $info['description'] ?? null,
+                'page_updated_date' => new \DateTime('now'),
+                'table_of_contents_html' => $table_of_contents_html,
+                'os' => $os ?? null
+            ];
+
+            $page = ImportHelper::createPage($record);
         }
-    }
-
-    public function trimAndClean(string $text) {
-        // Remove redundant whitespace
-        $text = preg_replace("/\s\s+/", ' ', $text);
-
-        $text = trim($text);
-
-        return $text;
     }
 }

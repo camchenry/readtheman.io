@@ -71,6 +71,7 @@ class GetLinuxKernelManPages extends Command
                 echo sprintf("Section %s, %s\n", $section, $page_name);
 
                 $html = ImportHelper::makeHtmlForManPage($page_name, $section, $directory);
+                $raw_html = $html;
 
                 $doc = ImportHelper::createSectionedDocument($html);
 
@@ -98,6 +99,7 @@ class GetLinuxKernelManPages extends Command
                     'section' => $section,
                     'category' => $info['category'],
                     'html' => $html,
+                    'raw_html' => $raw_html,
                     'short_description' => $info['short_description'] ?? null,
                     'description' => $info['description'] ?? null,
                     'page_updated_date' => $info['page_updated_date'],

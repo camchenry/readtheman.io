@@ -42,6 +42,7 @@ class ImportHelper
             'section'                => 'string',
             'category'               => 'string',
             'html'                   => 'string',
+            'raw_html'               => 'string',
             'table_of_contents_html' => 'string',
         ];
 
@@ -90,6 +91,7 @@ class ImportHelper
         $section                = self::trimAndClean($data['section']);
         $category               = self::trimAndClean($data['category']);
         $html                   = self::trimAndClean($data['html']);
+        $raw_html               = self::trimAndClean($data['raw_html']);
         $table_of_contents_html = self::trimAndClean($data['table_of_contents_html']);
         if (isset($data['short_description'])) {
             $short_description = self::trimAndClean($data['short_description']);
@@ -120,9 +122,10 @@ class ImportHelper
             ]
         );
         $page->category               = $category;
-        $page->raw_html               = $html;
-        $page->page_updated_at        = $page_updated_date;
+        $page->processed_html         = $html;
+        $page->raw_html               = $raw_html;
         $page->table_of_contents_html = $table_of_contents_html;
+        $page->page_updated_at        = $page_updated_date;
         if (!empty($description)) {
             $page->description = $description;
         }

@@ -130,6 +130,7 @@ class GetCoreutilsManPages extends Command
             echo "Section {$section}, {$page_name}\n";
 
             $html = ImportHelper::makeHtmlForManPage($page_name, $section, $directory . '/man');
+            $raw_html = $html;
             $doc = ImportHelper::createSectionedDocument($html);
 
             /*
@@ -156,6 +157,7 @@ class GetCoreutilsManPages extends Command
                 'section' => $section,
                 'category' => $info['category'],
                 'html' => $html,
+                'raw_html' => $raw_html,
                 'short_description' => $info['short_description'] ?? null,
                 'description' => $info['description'] ?? null,
                 'page_updated_date' => new \DateTime('now'),
@@ -165,14 +167,5 @@ class GetCoreutilsManPages extends Command
 
             $page = ImportHelper::createPage($record);
         }
-    }
-
-    public function trimAndClean(string $text) {
-        // Remove redundant whitespace
-        $text = preg_replace("/\s\s+/", ' ', $text);
-
-        $text = trim($text);
-
-        return $text;
     }
 }
