@@ -4,9 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="keywords" content="@yield('meta.keywords', 'linux,help,man,page,man page,online,kernel,c,unix')"/>
-        <meta name="description" content="@yield('meta.description', 'Online Linux Man Pages')"/>
+        <meta name="description" content="@yield('meta.description', 'Searchable online man pages')"/>
 
         <title>@yield('title') | ReadTheMan</title>
 
