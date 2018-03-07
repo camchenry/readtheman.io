@@ -57,5 +57,6 @@
             </div>
         </footer>
         @stack('body_scripts')
+        @include('shared.tracking')
     </body>
 </html>
