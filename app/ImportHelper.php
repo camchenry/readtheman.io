@@ -302,7 +302,7 @@ class ImportHelper
                 $page = Page::where('name', '=', $text)->first();
                 $link = $doc->createElement('a');
                 $link->textContent = $text;
-                $link->setAttribute('href', \URL::to('/pages/' . $page->section . '/' . $text));
+                $link->setAttribute('href', $page->getUrl());
                 $bold->textContent = '';
                 $bold->appendChild($link);
             }
