@@ -5,8 +5,8 @@
 @section('meta.description', $page->short_description)
 
 @push('body_scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
-    <script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <script defer>
     window.addEventListener('load', function(){
         var clipboard = new Clipboard('.copy');
     })

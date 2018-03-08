@@ -13,11 +13,10 @@
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
         @yield('stylesheets')
 
-        <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
-        <script
-                src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
                 crossorigin="anonymous"></script>
+        <script defer src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
         @stack('scripts')
     </head>
     <body class="full-page">
