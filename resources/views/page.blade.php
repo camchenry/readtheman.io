@@ -4,26 +4,11 @@
 
 @section('meta.description', $page->short_description)
 
-@push('scripts')
+@push('body_scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
     <script>
     window.addEventListener('load', function(){
         var clipboard = new Clipboard('.copy');
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO Prevent dropdown menu going away
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
-        // @TODO
     })
     </script>
 @endpush
