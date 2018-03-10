@@ -22,11 +22,11 @@
     </header>
     <div class="container">
         @foreach($pages as $letter => $pages)
-            <h2 class="display-2">{{ $letter }}</h2>
+            <h2 class="display-3">{{ $letter }}</h2>
             <div class="row">
                 @foreach($pages as $page)
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <h3><a href="{{ $page->getUrl() }}">{{ $page->name }}</a></h3>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                        <a href="{{ $page->getUrl() }}">{{ $page->name }}</a>
                     </div>
                 @endforeach
             </div>
