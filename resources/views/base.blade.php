@@ -18,7 +18,6 @@
                 integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
                 crossorigin="anonymous"></script>
         <script defer src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
-        <script async defer src="https://buttons.github.io/buttons.js"></script>
         @stack('scripts')
     </head>
     <body class="full-page">
@@ -57,11 +56,8 @@
         <footer class="footer">
             <div class="container py-3">
                 <p class="d-inline text-muted m-0">Made by <a href="https://camchenry.com">Cameron McHenry</a></p>
-                &bull;
+                -
                 <a href="#">Go to top</a>
-                <span class="pl-3">
-                    <a class="github-button" href="https://github.com/camchenry/readtheman.io" data-show-count="true" aria-label="Star camchenry/readtheman.io on GitHub">Star</a>
-                </span>
             </div>
         </footer>
         @stack('body_scripts')
