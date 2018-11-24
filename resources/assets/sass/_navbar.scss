@@ -1,7 +1,14 @@
+.navbar {
+    border-top: 4px solid theme-color(primary);
+    padding: 0.35rem 1rem;
+}
+.bg-dark {
+    background-color: mix(theme-color(primary), #1d2124, 10%) !important;
+}
 .nav-item {
     .nav-link {
-        margin-bottom: calc(-0.5rem - 0.05rem);
-        padding-bottom: calc(0.5rem + 4px);
+        margin-bottom: calc(-0.35rem - 0.05rem);
+        padding-bottom: calc(0.35rem + 4px);
     }
 }
 .nav-item.active {
