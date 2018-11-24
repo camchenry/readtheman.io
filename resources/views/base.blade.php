@@ -10,6 +10,7 @@
         <title>@yield('title') | ReadTheMan</title>
 
         <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
         @yield('stylesheets')
 
