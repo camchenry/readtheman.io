@@ -17,7 +17,8 @@ Route::get('/', function () {
     return view('home', compact('sections'));
 });
 Route::get('/pages', function () {
-    return view('pages');
+    $sections = \App\Section::get();
+    return view('home', compact('sections'));
 });
 Route::get('/pages/{section}/{page}', function (string $section, string $page) {
     $page = \App\Page::where('section', '=', $section)->where('name', '=', $page)->first();
