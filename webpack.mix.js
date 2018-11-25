@@ -15,6 +15,7 @@ mix.sass('resources/assets/sass/app.scss', 'public/css');
 
 mix.js('resources/assets/js/search.js', 'public/js');
 mix.js('resources/assets/js/minisearch.js', 'public/js');
+mix.js('resources/assets/js/home_search.js', 'public/js');
 
 mix.js('node_modules/clipboard/dist/clipboard.min.js', 'public/js');
 
