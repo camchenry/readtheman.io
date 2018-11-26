@@ -1,8 +1,14 @@
 @extends('base')
 
-@section('title', 'Home')
+@section('title', 'Searchable, enhanced online man pages.')
 
 @push('body_scripts')
+    <script defer>
+        var ALGOLIA_APP_ID = '{{ env('ALGOLIA_APP_ID') }}';
+        var ALGOLIA_SEARCH_KEY = '{{ env('ALGOLIA_SEARCH_KEY') }}';
+        var SEARCH_INDEX = '{{ env('ALGOLIA_INDEX') }}';
+        var BASE_URL = '{{ URL::to('/') }}';
+    </script>
     <script defer src="{{ url('js/home_search.js') }}"></script>
 @endpush
 
@@ -14,16 +20,14 @@
                     <h1 class="title mb-0 display-4">ReadTheMan</h1>
                     <p class="lead">Searchable, enhanced online man pages.</p>
                     <div class="search-wrapper d-flex flex-row">
-                        <home-search
-                        @query="alert(1)"
-                        ></home-search>
+                        <home-search></home-search>
                     </div>
                 </div>
             </div>
             <div class="container" v-cloak v-show="searchStore.query.length > 0">
                 <div class="row">
                      <div class="col-md-8">
-                         <div class="row py-2">
+                         <div class="row pb-2">
                              <div class="col">
                                  <ais-stats class="text-muted"></ais-stats>
                              </div>
@@ -95,20 +99,14 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <h1>Sections</h1>
-                        <ul class="list-unstyled">
-                        @foreach($sections as $section)
-                            <li class="h5"><a href="{{ $section->getUrl() }}">{{ $section->description }} ({{$section->section}})</a></li>
-                        @endforeach
-                        </ul>
-                    </div>
-                    {{-- <div class="col-sm-12 col-md-6 col-lg-4"> --}}
-                    {{--     <h1>Categories</h1> --}}
-                    {{-- </div> --}}
-                    {{-- <div class="col-sm-12 col-md-6 col-lg-4"> --}}
-                    {{--     <h1>Sources</h1> --}}
-                    {{-- </div> --}}
+                    <h1 class="col-12">Sections</h1>
+                    @foreach($sections as $section)
+                        <a class="col-sm-12 col-md-6 col-lg-4" href="{{ $section->getUrl() }}">
+                            <div class="h5 shadow-sm border p-3 mb-2">
+                                {{ $section->description }}
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </ais-index>

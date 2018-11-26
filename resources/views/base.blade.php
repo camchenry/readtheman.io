@@ -5,9 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="@yield('meta.keywords', 'linux,help,man,page,man page,online,kernel,c,unix')"/>
-        <meta name="description" content="@yield('meta.description', 'Searchable online man pages')"/>
+        <meta name="description" content="@yield('meta.description', 'Searchable, enhanced online man pages.')"/>
 
-        <title>@yield('title') | ReadTheMan</title>
+        <title>ReadTheMan | @yield('title')</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
@@ -31,7 +31,9 @@
                         </a>
                     </li>
                 </ul>
-                @include('shared.minisearch')
+                @if(!Request::is('/'))
+                    @include('shared.minisearch')
+                @endif
             </div>
         </nav>
         <div class="full-page-content mb-3">
