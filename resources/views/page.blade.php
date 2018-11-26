@@ -34,6 +34,12 @@
     <div class="container">
         <div class="main row">
             <div class="col-lg-8">
+                @if($page->tldr_html)
+                <div class="tldr">
+                    <h2 class="h6 title">Quick Reference</h2>
+                    {!! $page->tldr_html !!}
+                </div>
+                @endif
                 <article class="mb-4 man-page">
                     {!! $page->processed_html !!}
                 </article>

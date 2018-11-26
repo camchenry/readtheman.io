@@ -420,7 +420,8 @@ h6,
   font-size: 1rem;
 }
 
-.lead {
+.lead,
+.tldr blockquote {
   font-size: 1.25rem;
   font-weight: 300;
 }
@@ -9869,6 +9870,8 @@ a.text-dark:focus {
 }
 
 .homepage.queried .lead,
+.homepage.queried .tldr blockquote,
+.tldr .homepage.queried blockquote,
 .homepage.queried .title {
   display: none;
 }
@@ -10057,6 +10060,31 @@ a.text-dark:focus {
 .man-page-header .breadcrumb {
   background: none;
   padding: 0;
+}
+
+.tldr {
+  border-left: 2px solid #1993e2;
+  padding: 1rem;
+  background-color: #f4fafe;
+  margin-bottom: 1rem;
+}
+
+.tldr .title {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.tldr ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tldr p code {
+  padding: 0.4rem;
+  background-color: #e3f2fc;
+  color: #333;
 }
 
 #view_in_terminal {

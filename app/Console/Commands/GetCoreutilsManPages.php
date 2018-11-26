@@ -144,7 +144,7 @@ class GetCoreutilsManPages extends Command
             }
         }
 
-        foreach($page_queue as $page) {
+        foreach($page_queue as $i => $page) {
             $page_name = $page['name'];
             $section = $page['section'];
             $raw_html = $page['raw_html'];
@@ -172,6 +172,15 @@ class GetCoreutilsManPages extends Command
 
             $info = ImportHelper::extractInfo($body_html);
 
+            /*
+             * TL;DR
+             */
+            $tldr = ImportHelper::getTldr($page_name, $section, $i == 0);
+
+            if (!empty($tldr)) {
+                $tldr_description = ImportHelper::getTldrDescription($tldr);
+            }
+
             $record = [
                 'name' => $page_name,
                 'source' => 'Coreutils',
@@ -184,6 +193,8 @@ class GetCoreutilsManPages extends Command
                 'page_updated_date' => new \DateTime('now'),
                 'table_of_contents_html' => $table_of_contents_html,
                 'os' => $info['os'] ?? null,
+                'tldr_description' => $tldr_description ?? null,
+                'tldr_html' => $tldr ?? null,
             ];
 
             $page = ImportHelper::createPage($record);

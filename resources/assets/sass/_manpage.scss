@@ -62,6 +62,35 @@
     }
 }
 
+.tldr {
+    border-left: 2px solid theme-color(primary);
+    padding: 1rem;
+    background-color: mix(theme-color(primary), #fff, 5%);
+    margin-bottom: 1rem;
+
+    .title {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+    }
+
+    blockquote {
+        @extend .lead;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    p code {
+        padding: 0.4rem;
+        background-color: mix(theme-color(primary), #fff, 12%);
+        color: #333;
+    }
+}
+
 #view_in_terminal {
     font-family: monospace;
     background: #fff;

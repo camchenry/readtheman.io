@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App;
 
 use Symfony\Component\Process\Process;
+use Symfony\Component\Finder\Finder;
+use Parsedown;
 
 class ImportHelper
 {
@@ -51,12 +53,16 @@ class ImportHelper
             'short_description' => 'string',
             'description'       => 'string',
             'os'                => 'string',
+            'tldr_html'         => 'string',
+            'tldr_description'  => 'string',
         ];
 
         $nullable_fields = [
             'short_description' => true,
             'description'       => true,
             'os'                => true,
+            'tldr_html'         => true,
+            'tldr_description'  => true,
         ];
 
         foreach($required_fields as $field => $type) {
@@ -102,6 +108,12 @@ class ImportHelper
         if (isset($data['os'])) {
             $os = self::trimAndClean($data['os']);
         }
+        if (isset($data['tldr_html'])) {
+            $tldr_html = self::trimAndClean($data['tldr_html']);
+        }
+        if (isset($data['tldr_description'])) {
+            $tldr_description = self::trimAndClean($data['tldr_description']);
+        }
         $source                 = self::trimAndClean($data['source']);
         $page_updated_date      = $data['page_updated_date'];
 
@@ -134,6 +146,12 @@ class ImportHelper
         }
         if (!empty($os)) {
             $page->os = $os;
+        }
+        if (!empty($tldr_html)) {
+            $page->tldr_html = $tldr_html;
+        }
+        if (!empty($tldr_description)) {
+            $page->tldr_description = $tldr_description;
         }
         $page->save();
     }
@@ -365,6 +383,71 @@ class ImportHelper
         $data['os'] = $os;
 
         return $data;
+    }
+
+    public static function getTldr(string $man_page, string $section, bool $fetch_repository = true): ?string
+    {
+        $directory = storage_path() . '/man_pages/tldr';
+        if ($fetch_repository) {
+            $github_url = 'https://github.com/tldr-pages/tldr';
+            if (!file_exists($directory)) {
+                echo "Fetching tldr git repository ({$github_url})\n";
+                $repository = \Gitonomy\Git\Admin::cloneTo($directory, $github_url, false);
+            }
+            else {
+                $process = new Process("sudo su && cd $directory && git pull");
+                $process->run();
+
+                if (!$process->isSuccessful())
+                {
+                    exit($process->getErrorOutput());
+                }
+            }
+        }
+
+        $finder = new Finder();
+        $finder->files()
+            ->in($directory . '/pages')
+            ->name("/^{$man_page}\.md$/");
+
+        echo "Searching for files in {$directory}/pages\n";
+
+        // @TODO: What about multiple matches?
+        foreach($finder as $file) {
+            $filename = $file->getFilename();
+            $file_contents = $file->getContents();
+
+            $parsedown = new Parsedown();
+
+            $tldr_html = $parsedown->text($file_contents);
+
+            // Remove the <h1> title tag
+            $tldr_html = mb_eregi_replace("<\s*h1\s*[^>]*>(.*?)</\s*h1\s*>", '', $tldr_html);
+
+            return $tldr_html;
+        }
+
+        return null;
+    }
+
+    /*
+     * Gets the TL;DR description for a command from the generated HTML
+     *
+     * @return string|null
+     */
+    public static function getTldrDescription(string $tldr_html): ?string
+    {
+        $doc = new \DOMDocument;
+        $doc->loadHTML($tldr_html);
+
+        $blockquote = $doc->getElementsByTagName('blockquote')->item(0);
+        foreach($blockquote->childNodes as $child) {
+            if ($child->nodeName === 'p') {
+                return self::trimAndClean($child->textContent);
+            }
+        }
+
+        return null;
     }
 
     public static function trimAndClean(string $text): string {
