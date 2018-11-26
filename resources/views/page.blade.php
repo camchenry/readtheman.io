@@ -15,7 +15,7 @@
 
 @section('content')
     <header class="man-page-header bg-light">
-        <div class="container py-2 py-sm-3 py-lg-4 pb-1 mb-3 mb-lg-4">
+        <div class="container pt-3 pb-2 mb-3 mb-lg-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ URL::to('/') }}">Home</a></li>
