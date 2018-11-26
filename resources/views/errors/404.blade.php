@@ -16,7 +16,4 @@
             </h1>
         </div>
     </header>
-    <div class="container">
-        @include('shared.search')
-    </div>
 @endsection
