@@ -25,11 +25,13 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ URL::to('/') }}">ReadTheMan</a>
                 <ul class="navbar-nav mr-auto">
+                    {{--
                     <li class="nav-item {{ Request::is('pages') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ URL::to('/pages') }}">
                             Pages @if(Request::is('/'))<span class="sr-only">(current)</span>@endif
                         </a>
                     </li>
+                    --}}
                 </ul>
                 @if(!Request::is('/'))
                     @include('shared.minisearch')
