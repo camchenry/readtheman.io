@@ -4,8 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="keywords" content="@yield('meta.keywords', 'linux,help,man,page,man page,online,kernel,c,unix')"/>
-        <meta name="description" content="@yield('meta.description', 'Searchable, enhanced online man pages.')"/>
+        <meta name="description" content="@yield('meta.description', 'ReadTheMan is the best place to search thousands of structured, formatted help and reference documents.')"/>
 
         <title>ReadTheMan | @yield('title')</title>
 
