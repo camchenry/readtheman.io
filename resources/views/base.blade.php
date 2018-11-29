@@ -7,6 +7,17 @@
         <meta name="description" content="@yield('meta.description', 'ReadTheMan is the best place to search thousands of structured, formatted help and reference documents.')"/>
 
         @if(Request::is('pages*') || Request::is('section*'))
+            <meta property="og:title" content="@yield('title') | ReadTheMan" />
+        @else
+            <meta property="og:title" content="ReadTheMan | @yield('title')" />
+        @endif
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="{{ URL::current() }}" />
+        <meta property="og:image" content="{{ URL::to('/') . '/og_readtheman.png' }}" />
+        <meta property="og:description" content="@yield('meta.description', 'ReadTheMan is the best place to search thousands of structured, formatted help and reference documents.')"/>
+
+        @if(Request::is('pages*') || Request::is('section*'))
             <title>@yield('title') | ReadTheMan</title>
         @else
             <title>ReadTheMan | @yield('title')</title>
