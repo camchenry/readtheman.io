@@ -2,7 +2,29 @@
 
 @section('title', trim($page->name) . "({$page->section})")
 
-@section('meta.description', $page->short_description)
+<?php
+    function truncate($string, $limit, $break=".", $pad=".") {
+        // return with no change if string is shorter than $limit
+        if(strlen($string) <= $limit) return $string;
+
+        // is $break present between $limit and the end of the string?
+        if($breakpoint = strpos($string, $break, $limit)) {
+            if($breakpoint < strlen($string) - 1) {
+                $string = substr($string, 0, $breakpoint) . $pad;
+            }
+        }
+
+        return $string;
+    }
+    $truncated_description = truncate($page->description, 200);
+?>
+
+@if($page->tldr_description !== null)
+    <?php $tldr = trim(preg_replace('/\n/', ' ', $page->tldr_description)); ?>
+    @section('meta.description', trim($page->name) . ": {$tldr} {$truncated_description}")
+@else
+    @section('meta.description', trim($page->name) . ": {$page->short_description}. {$truncated_description}")
+@endif
 
 @push('body_scripts')
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
