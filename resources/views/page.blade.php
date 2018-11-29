@@ -16,7 +16,7 @@
 
         return $string;
     }
-    $truncated_description = truncate($page->description, 200);
+    $truncated_description = truncate($page->description, 150);
 ?>
 
 @if($page->tldr_description !== null)
