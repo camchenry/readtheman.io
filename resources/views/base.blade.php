@@ -6,7 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="@yield('meta.description', 'ReadTheMan is the best place to search thousands of structured, formatted help and reference documents.')"/>
 
-        <title>ReadTheMan | @yield('title')</title>
+        @if(Request::is('pages*') || Request::is('section*'))
+            <title>@yield('title') | ReadTheMan</title>
+        @else
+            <title>ReadTheMan | @yield('title')</title>
+        @endif
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
