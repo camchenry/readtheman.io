@@ -100,23 +100,23 @@
                          </div>
                          <ais-results>
                              <template slot-scope="{ result }">
-                                 <div class="search-result mb-4">
-                                     <h3>
+                                 <div class="search-result mb-3">
+                                     <h3 class="mb-1">
                                          <a :href="'{{ URL::to('/pages') }}' + '/' + result.section + '/' + result.name">
                                              <ais-highlight :result="result" attribute-name="name"></ais-highlight>
                                          </a>
                                      </h3>
-                                     <p>
-                                     <ais-highlight :result="result" attribute-name="short_description"></ais-highlight>
+                                     <p class="mb-1">
+                                         <ais-highlight :result="result" attribute-name="short_description"></ais-highlight>
                                      </p>
-                                     <p class="text-muted">
-                                     <ais-snippet :result="result" attribute-name="description"></ais-snippet>
+                                     <p class="text-muted mb-1">
+                                         <ais-snippet :result="result" attribute-name="description"></ais-snippet>
                                      </p>
                                  </div>
                              </template>
-                             </ais-results>
-                             <ais-no-results class="mb-4">
-                             </ais-no-results>
+                         </ais-results>
+                         <ais-no-results class="mb-4">
+                         </ais-no-results>
                      </div>
                      <aside class="col-md-4">
                      </aside>
