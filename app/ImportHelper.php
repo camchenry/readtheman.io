@@ -396,7 +396,7 @@ class ImportHelper
     public static function getTldr(string $man_page, string $section, bool $fetch_repository = true): ?string
     {
         if ($section !== '1') {
-            throw new Exception("Cannot get TLDRs for pages that are not user commands (i.e., in section 1).");
+            throw new \Exception("Could not get TL;DR for '{$man_page}': not a user command (section 1).");
         }
 
         $directory = storage_path() . '/man_pages/tldr';
