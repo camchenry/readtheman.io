@@ -385,8 +385,20 @@ class ImportHelper
         return $data;
     }
 
+    /*
+     * Get the TL;DR text for a given user command. Returns null if text cannot
+     * be found in the repository.
+     *
+     * Throws an exception if the section is not '1'.
+     *
+     * @return string|null
+     */
     public static function getTldr(string $man_page, string $section, bool $fetch_repository = true): ?string
     {
+        if ($section !== '1') {
+            throw new Exception("Cannot get TLDRs for pages that are not user commands (i.e., in section 1).");
+        }
+
         $directory = storage_path() . '/man_pages/tldr';
         if ($fetch_repository) {
             $github_url = 'https://github.com/tldr-pages/tldr';
