@@ -29,6 +29,69 @@
                      <div class="col-md-8">
                          <div class="row pb-2">
                              <div class="col">
+                                 <span>
+                                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category</button>
+                                     <div class="dropdown-menu">
+                                         <div class="px-3 py-2">
+                                             <ais-refinement-list attribute-name="category" :class-names="{
+                                             'ais-refinement-list__count': 'badge badge-light',
+                                             'ais-refinement-list__checkbox': 'checkbox mr-1'
+                                             }"
+                                              :sort-by="['count:desc', 'name:asc']"
+                                              >
+                                              </ais-refinement-list>
+                                         </div>
+                                     </div>
+                                 </span>
+
+                                 <span>
+                                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Source</button>
+                                     <div id="source_dropdown" class="dropdown-menu">
+                                         <div class="px-3 py-2">
+                                               <ais-refinement-list attribute-name="source" :class-names="{
+                                               'ais-refinement-list__count': 'badge badge-light',
+                                               'ais-refinement-list__checkbox': 'checkbox mr-1'
+                                               }"
+                                             :sort-by="['count:desc', 'name:asc']"
+                                             >
+                                             </ais-refinement-list>
+                                         </div>
+                                     </div>
+                                 </span>
+
+                                 <span>
+                                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">OS</button>
+                                     <div class="dropdown-menu">
+                                         <div class="px-3 py-2">
+                                             <ais-refinement-list attribute-name="os" :class-names="{
+                                             'ais-refinement-list__count': 'badge badge-light',
+                                             'ais-refinement-list__checkbox': 'checkbox mr-1'
+                                             }"
+                                               :sort-by="['count:desc', 'name:asc']"
+                                               >
+                                               </ais-refinement-list>
+                                         </div>
+                                     </div>
+                                 </span>
+
+                                 <span>
+                                     <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Section</button>
+                                     <div class="dropdown-menu">
+                                         <div class="px-3 py-2">
+                                            <ais-refinement-list attribute-name="section" :class-names="{
+                                                'ais-refinement-list__count': 'badge badge-light',
+                                                'ais-refinement-list__checkbox': 'checkbox mr-1'
+                                                }"
+                                                :sort-by="['count:desc', 'name:asc']"
+                                            >
+                                            </ais-refinement-list>
+                                         </div>
+                                     </div>
+                                 </span>
+                             </div>
+                         </div>
+                         <div class="row pb-2">
+                             <div class="col">
                                  <ais-stats class="text-muted"></ais-stats>
                              </div>
                              <div class="col form-inline justify-content-end">
@@ -55,45 +118,7 @@
                              <ais-no-results class="mb-4">
                              </ais-no-results>
                      </div>
-                     <aside class="search-aside col-md-4">
-                         <h5 class="text-muted">Refine by</h5>
-                         <div class="row">
-                             <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="category" :class-names="{
-                             'ais-refinement-list__count': 'badge badge-light',
-                             'ais-refinement-list__item': 'checkbox pr-1'
-                             }"
-                           :sort-by="['count:desc', 'name:asc']"
-                           >
-                           <h6 class="refinement-header" slot="header">Category</h6>
-                           </ais-refinement-list>
-
-                           <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="source" :class-names="{
-                           'ais-refinement-list__count': 'badge badge-light',
-                           'ais-refinement-list__item': 'checkbox pr-1'
-                           }"
-                         :sort-by="['count:desc', 'name:asc']"
-                         >
-                         <h6 class="refinement-header" slot="header">Source</h6>
-                         </ais-refinement-list>
-
-                         <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="os" :class-names="{
-                         'ais-refinement-list__count': 'badge badge-light',
-                         'ais-refinement-list__item': 'checkbox pr-1'
-                         }"
-                           :sort-by="['count:desc', 'name:asc']"
-                           >
-                           <h6 class="refinement-header" slot="header">OS</h6>
-                           </ais-refinement-list>
-
-                            <ais-refinement-list class="col-xs-12 col-sm-6 col-md-12" attribute-name="section" :class-names="{
-                                'ais-refinement-list__count': 'badge badge-light',
-                                'ais-refinement-list__item': 'checkbox'
-                                }"
-                                :sort-by="['count:desc', 'name:asc']"
-                            >
-                                <h6 class="refinement-header" slot="header">Section</h6>
-                            </ais-refinement-list>
-                         </div>
+                     <aside class="col-md-4">
                      </aside>
                  </div>
             </div>

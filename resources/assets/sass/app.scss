@@ -19,6 +19,15 @@
     max-width: 560px;
     flex: 1 1;
 }
+
+@media (min-width: 768px) {
+  .collapse.dont-collapse-sm {
+    display: block;
+    height: auto !important;
+    visibility: visible;
+  }
+}
+
 .homepage {
     .search-wrapper {
         justify-content: center;
@@ -44,7 +53,7 @@
         background-image: none;
         padding-top: 1rem;
         padding-bottom: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.75rem;
         .container {
             padding-top: 0;
             padding-bottom: 0;

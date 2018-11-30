@@ -9837,6 +9837,14 @@ a.text-dark:focus {
           flex: 1 1;
 }
 
+@media (min-width: 768px) {
+  .collapse.dont-collapse-sm {
+    display: block;
+    height: auto !important;
+    visibility: visible;
+  }
+}
+
 .homepage .search-wrapper {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -9868,7 +9876,7 @@ a.text-dark:focus {
   background-image: none;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .homepage.queried .jumbotron .container {
@@ -9939,14 +9947,6 @@ a.text-dark:focus {
 .refinement-header {
   font-size: 0.9rem;
   font-weight: bold;
-}
-
-@media (max-width: 767.98px) {
-  .main.row .search-aside {
-    -webkit-box-ordinal-group: 0;
-        -ms-flex-order: -1;
-            order: -1;
-  }
 }
 
 .algolia-autocomplete {

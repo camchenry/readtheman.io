@@ -43,7 +43,4 @@
 }
 
 @include media-breakpoint-down(sm) {
-    .main.row .search-aside {
-        order: -1;
-    }
 }
