@@ -51,6 +51,10 @@ class GetGitManPages extends Command
         $process = new Process("sudo apt-get -y install {$packages}");
         $process->run();
 
+        // Prefetch tl;dr text
+        echo "Prefetching TL;DR repository.\n";
+        ImportHelper::getTldr('git-add', '1', true); // dummy call
+
         $directory = storage_path() . '/man_pages/git';
         $github_url = 'https://github.com/git/git';
         if (!file_exists($directory)) {
@@ -168,6 +172,18 @@ class GetGitManPages extends Command
                 $category = 'Git Manual';
             }
 
+            /*
+             * TL;DR
+             */
+            // Get text if it is a user command (section 1).
+            if ($section === '1') {
+                $tldr = ImportHelper::getTldr($page_name, $section, false);
+
+                if (!empty($tldr)) {
+                    $tldr_description = ImportHelper::getTldrDescription($tldr);
+                }
+            }
+
             $record = [
                 'name' => $page_name,
                 'source' => 'Git',
@@ -179,7 +195,9 @@ class GetGitManPages extends Command
                 'description' => $info['description'] ?? null,
                 'page_updated_date' => new \DateTime('now'),
                 'table_of_contents_html' => $table_of_contents_html,
-                'os' => $os ?? null
+                'os' => $os ?? null,
+                'tldr_description' => $tldr_description ?? null,
+                'tldr_html' => $tldr ?? null,
             ];
 
             $page = ImportHelper::createPage($record);
