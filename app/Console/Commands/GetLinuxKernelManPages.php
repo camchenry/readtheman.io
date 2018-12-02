@@ -125,6 +125,10 @@ class GetLinuxKernelManPages extends Command
 
             $info = ImportHelper::extractInfo($body_html);
 
+            if (empty($info['category'])) {
+                $info['category'] = "Linux Programmer's Manual";
+            }
+
             $record = [
                 'name' => $page_name,
                 'source' => 'Linux kernel',

@@ -377,6 +377,10 @@ class ImportHelper
             }
         }
 
+        if (!$updated_at_date) {
+            $updated_at_date = new \DateTime();
+        }
+
         $data['page_updated_date'] = $updated_at_date;
 
         $os = $dom->find('.foot-os')->text;
