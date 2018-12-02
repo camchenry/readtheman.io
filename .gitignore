@@ -11,3 +11,4 @@ npm-debug.log
 yarn-error.log
 .env
 /storage/man_pages/*
+/storage/sitemap.xml
