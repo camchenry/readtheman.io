@@ -175,6 +175,7 @@ class GetGitManPages extends Command
             /*
              * TL;DR
              */
+            $tldr = null;
             // Get text if it is a user command (section 1).
             if ($section === '1') {
                 $tldr = ImportHelper::getTldr($page_name, $section, false);
