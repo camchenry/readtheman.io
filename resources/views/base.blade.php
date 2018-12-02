@@ -6,6 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="@yield('meta.description', 'ReadTheMan is the best place to search thousands of structured, formatted help and reference documents.')"/>
 
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#2b5797">
+        <meta name="theme-color" content="#1993e2">
+
         @if(Request::is('pages*') || Request::is('section*'))
             <meta property="og:title" content="@yield('title') | ReadTheMan" />
         @else
