@@ -13,11 +13,11 @@ declare(strict_types=1);
 */
 
 Route::get('/', function () {
-    $sections = \App\Section::get();
+    $sections = \App\Section::get()->sortBy('id');
     return view('home', compact('sections'));
 });
 Route::get('/pages', function () {
-    $sections = \App\Section::get();
+    $sections = \App\Section::get()->sortBy('id');
     return view('home', compact('sections'));
 });
 Route::get('/pages/{section}/{page}', function (string $section, string $page) {
