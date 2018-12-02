@@ -2,7 +2,11 @@
 
 @section('title', 'Section ' . trim($section->section))
 
-@section('meta.description', 'All man pages in man section ' . $section->section)
+@if($section->full_description)
+    @section('meta.description', $section->full_description)
+@else
+    @section('meta.description', "A list of all pages in section {$section->section}: {$section->description}.")
+@endif
 
 @section('content')
     <header class="man-page-header bg-light">

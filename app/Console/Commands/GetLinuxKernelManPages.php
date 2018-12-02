@@ -142,6 +142,14 @@ class GetLinuxKernelManPages extends Command
             $page = ImportHelper::createPage($record);
 
             $progress_bar->advance();
+
+            // If this happens to be an intro page for the section, then
+            // save the description to the section.
+            if ($page_name === 'intro' && !empty($info['description'])) {
+                $section_record = \App\Section::where('section', '=', $section)->first();
+                $section_record->full_description = ImportHelper::trimAndClean($info['description']);
+                $section_record->save();
+            }
         }
 
         $progress_bar->finish();
