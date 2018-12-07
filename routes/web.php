@@ -21,6 +21,13 @@ Route::get('/pages', function () {
     return view('home', compact('sections'));
 });
 Route::get('/pages/{section}/{page}', function (string $section, string $page) {
+    /*
+     * @Hack @TODO: This is only necessary because the name field used to be
+     * padded out to 255 characters, so lots of unnecessary spaces were added
+     * to the URL.
+     */
+    $page = trim($page);
+
     $page = \App\Page::where('section', '=', $section)->where('name', '=', $page)->first();
 
     if (!$page) {
